@@ -1,0 +1,62 @@
+{
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "Munite Game",
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 200
+			}
+		},
+		{
+			"path": "pages/shoppingMall/index",
+			"style": {
+				"navigationBarTitleText": "商城",
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 200
+			}
+		}, {
+			"path": "pages/worldTree/index",
+			"style": {
+				"navigationBarTitleText": "世界树",
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 200
+			}
+		}
+	],
+	"globalStyle": {
+		"pageOrientation": "portrait",
+		"navigationBarTitleText": "Munite Game",
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#F8F8F8",
+		"backgroundColorTop": "#F4F5F6",
+		"backgroundColorBottom": "#F4F5F6",
+		"mp-360": {
+			"navigationStyle": "custom"
+		},
+		"h5": {
+			"maxWidth": 1280,
+			"navigationBarTextStyle": "black",
+			"navigationBarBackgroundColor": "#F1F1F1"
+		}
+	},
+	"tabBar": {
+		"color": "#fff",
+		"borderStyle": "white",
+		"height": "0",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/shoppingMall/index",
+				"text": " "
+			},
+			{
+				"pagePath": "pages/index/index",
+				"text": " "
+			} {
+				"pagePath": "pages/worldTree/index",
+				"text": " "
+			},
+		]
+	}
+
+}
