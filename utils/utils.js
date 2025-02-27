@@ -1,5 +1,4 @@
 import moment from 'moment'
-import { ANDROID_TYPE, IOS_TYPE } from './TYPE_ENUM'
 
 export function uuid() {
 	var s = []
@@ -28,10 +27,10 @@ export function formatDate(date, fmt) {
 export function getDeviceOS(type) {
 	const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 	if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-		return IOS_TYPE == type;
+		return 'ios';
 	}
 	if (/android/i.test(userAgent)) {
-		return ANDROID_TYPE == type;
+		return 'android';
 	}
 	return 'Unknown';
 }

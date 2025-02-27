@@ -21,6 +21,21 @@
 				"navigationStyle": "custom",
 				"onReachBottomDistance": 200
 			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登陆注册",
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 200
+			}
+		},{
+			"path": "pages/myPage/index",
+			"style": {
+				"navigationBarTitleText": "我的页面",
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 200
+			}
 		}
 	],
 	"globalStyle": {
@@ -52,10 +67,10 @@
 			{
 				"pagePath": "pages/index/index",
 				"text": " "
-			} {
+			}, {
 				"pagePath": "pages/worldTree/index",
 				"text": " "
-			},
+			}
 		]
 	}
 

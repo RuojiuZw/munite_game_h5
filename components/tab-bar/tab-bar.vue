@@ -1,15 +1,15 @@
 <template>
-	<view class="tab-bar-box">
+	<view class="b-tab-bar-box">
 		<view class="left-button" @click="onToTab('/pages/shoppingMall/index')">
-			<img class="some-button-icon" src="@/static/tabbar-3.png" />
+			<img class="some-button-icon" src="@/static/image/tabbar/icon_left.png" />
 			<view class="menu-text">商城</view>
 		</view>
 		<view class="content-big-button" @click="onToTab('/pages/index/index')">
-			<img class="big-icon" src="@/static/tabbar-3.png" />
+			<img class="big-icon" src="@/static/image/tabbar/icon_content.png" />
 			<view class="menu-text">游戏场</view>
 		</view>
 		<view class="right-button" @click="onToTab('/pages/worldTree/index')">
-			<img class="some-button-icon" src="@/static/tabbar-3.png" />
+			<img class="some-button-icon" src="@/static/image/tabbar/icon_right.png" />
 			<view class="menu-text">世界树</view>
 		</view>
 	</view>
@@ -38,7 +38,7 @@
 </script>
 
 <style scoped>
-	.tab-bar-box {
+	.b-tab-bar-box {
 		display: flex;
 		align-items: end;
 		justify-content: center;
@@ -47,7 +47,7 @@
 		bottom: 0;
 		width: 100%;
 		height: 184rpx;
-		background: url("/static/tab-bar-bg.png") no-repeat;
+		background: url("@/static/image/tabbar/tab-bar-bg.png") no-repeat;
 		background-size: 100%;
 	}
 

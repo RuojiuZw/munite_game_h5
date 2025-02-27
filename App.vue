@@ -45,7 +45,6 @@
 	@import '@/static/customicons.css';
 
 	/* H5 兼容 pc 所需 */
-	/* #ifdef H5 */
 	@media screen and (min-width: 768px) {
 		body {
 			overflow-y: scroll;
@@ -56,13 +55,8 @@
 		-webkit-touch-callout: none;
 	}
 
-	/* 顶栏通栏样式 */
-	/* .uni-top-window {
-	    left: 0;
-	    right: 0;
-	} */
+	uni-page,
 	uni-page-body {
-		background-color: #fff !important;
 		min-height: 100% !important;
 		height: auto !important;
 	}
@@ -75,15 +69,13 @@
 		display: none !important;
 	}
 
-	/* #endif */
 
 	/* 以下样式用于 hello uni-app 演示所需 */
 	page {
-		background-color: #efeff4;
+		background-color: #FEF4D8;
 		height: 100%;
 		font-size: 28rpx;
 		font-family: PingFang SC;
-		/* line-height: 1.8; */
 	}
 
 	.fix-pc-padding {
