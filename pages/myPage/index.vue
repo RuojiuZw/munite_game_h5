@@ -4,70 +4,36 @@
 		<view class="my-page-tab">
 			<view class="my-page-tab-list">
 				<view class="my-page-tab-item" @click="onClickTab(0)">
-					<image class="my-page-icon icon-bb" src="/static/image/myPage/bb.png"></image>
-					<view class="my-page-title">
-						背包
-					</view>
+					<image class="my-page-icon icon-bb" src="@/static/image/myPage/bb.png"></image>
+					<view class="my-page-title"> 背包 </view>
 				</view>
 				<view class="my-page-tab-item" @click="onClickTab(1)">
-					<image class="my-page-icon icon-td" src="/static/image/myPage/td.png"></image>
-					<view class="my-page-title">
-						团队
-					</view>
+					<image class="my-page-icon icon-td" src="@/static/image/myPage/td.png"></image>
+					<view class="my-page-title"> 团队 </view>
 				</view>
 				<view class="my-page-tab-item" @click="onClickTab(2)">
-					<image class="my-page-icon icon-dh" src="/static/image/myPage/dh.png"></image>
-					<view class="my-page-title">
-						兑换
-					</view>
+					<image class="my-page-icon icon-dh" src="@/static/image/myPage/dh.png"></image>
+					<view class="my-page-title"> 兑换 </view>
 				</view>
 				<view class="my-page-tab-item" @click="onClickTab(3)">
-					<image class="my-page-icon icon-zh" src="/static/image/myPage/zh.png"></image>
-					<view class="my-page-title">
-						账户
-					</view>
+					<image class="my-page-icon icon-zh" src="@/static/image/myPage/zh.png"></image>
+					<view class="my-page-title"> 账户 </view>
 				</view>
 			</view>
 		</view>
 		<view class="my-backpack" v-if="curIndex == 0">
-			<view class="backpack-item">
-				<image class="backpack-add-icon" src="@/static/image/myPage/add-icon.png"></image>
-				<view class="backpack-text"></view>
+			<view class="backpack-list-box">
+				<view class="backpack-item">
+					<image class="backpack-add-icon" src="@/static/image/myPage/add-icon.png"></image>
+					<view class="backpack-text"></view>
+				</view>
+				<view class="backpack-item" v-for="(item, index) in bagList" :key="index" @click="onBagItem(item)">
+					<image class="backpack-add-icon" mode="aspectFit" :src="item.displayUrl"></image>
+					<view class="backpack-text">{{item.stackCount}}</view>
+				</view>
+				<view class="backpack-item" v-for="item in nullBoxNum" :key="item">
+				</view>
 			</view>
-			<view class="backpack-item">
-				<image class="backpack-add-icon ruby" src="@/static/image/shoppingMall/ruby.png"></image>
-				<view class="backpack-text">5285287</view>
-			</view>
-			<view class="backpack-item">
-				<image class="backpack-add-icon alhh" src="@/static/image/shoppingMall/alhh.png"></image>
-				<view class="backpack-text">123</view>
-			</view>
-			<view class="backpack-item">
-				<image class="backpack-add-icon lsck" src="@/static/image/shoppingMall/lsck.png"></image>
-				<view class="backpack-text">123</view>
-			</view>
-			<view class="backpack-item">
-				<image class="backpack-add-icon dtzy" src="@/static/image/shoppingMall/dtzy.png"></image>
-				<view class="backpack-text">231</view>
-			</view>
-			<view class="backpack-item">
-				<image class="backpack-add-icon jcxd" src="@/static/image/shoppingMall/jcxd.png"></image>
-				<view class="backpack-text">213</view>
-			</view>
-			<view class="backpack-item">
-			</view>
-			<view class="backpack-item">
-			</view>
-			<view class="backpack-item">
-			</view>
-			<view class="backpack-item">
-			</view>
-			<view class="backpack-item">
-			</view>
-			<view class="backpack-item">
-			</view>
-
-
 		</view>
 
 		<view class="my-team" v-if="curIndex == 1">
@@ -75,31 +41,39 @@
 				<view class="my-team-top-list">
 					<view class="my-team-top-item">
 						<view class="my-team-top-label">伞下会员</view>
-						<view class="my-team-top-text">12313123132</view>
+						<view class="my-team-top-text">{{
+              teamInfo.subMemberCount || 0
+            }}</view>
 					</view>
 					<view class="my-team-top-item">
 						<view class="my-team-top-label">昨日活跃</view>
-						<view class="my-team-top-text">135489</view>
+						<view class="my-team-top-text">{{
+              teamInfo.yesterdayActiveCount || 0
+            }}</view>
 					</view>
 				</view>
 				<view class="my-team-top-list">
 					<view class="my-team-top-item">
 						<view class="my-team-top-label">管理分数</view>
-						<view class="my-team-top-text">12313123132</view>
+						<view class="my-team-top-text">{{ teamInfo.point || 0 }}</view>
 					</view>
 					<view class="my-team-top-item">
 						<view class="my-team-top-label">账号级别</view>
-						<view class="my-team-top-text">135489</view>
+						<view class="my-team-top-text">{{ teamInfo.levelName || 0 }}</view>
 					</view>
 				</view>
 				<view class="my-team-top-list">
 					<view class="my-team-top-item">
 						<view class="my-team-top-label">管理激励</view>
-						<view class="my-team-top-text">12313123132</view>
+						<view class="my-team-top-text">{{
+              teamInfo.totalMotivateAmount || 0
+            }}</view>
 					</view>
 					<view class="my-team-top-item">
 						<view class="my-team-top-label">昨日激励</view>
-						<view class="my-team-top-text">135489</view>
+						<view class="my-team-top-text">{{
+              teamInfo.yesterdayMotivateAmount || 0
+            }}</view>
 					</view>
 				</view>
 			</view>
@@ -111,11 +85,15 @@
 						<view class="team-table-list-item item-3">会员总数</view>
 						<view class="team-table-list-item item-4">昨日活跃</view>
 					</view>
-					<view class="team-table-list" v-for="(item,index) in 5" :key="index"
-						:class="index%2==0?'':'color-bg'">
-						<view class="team-table-list-item item-1">爱吃鱼的{{index}}火爱吃鱼的火爱吃鱼的火…</view>
-						<view class="team-table-list-item item-2">L2</view>
-						<view class="team-table-list-item item-3">12321321312312321</view>
+					<view class="team-table-list" v-for="(item, index) in teamInfo.directlyMemberList" :key="index"
+						:class="index % 2 == 0 ? '' : 'color-bg'">
+						<view class="team-table-list-item item-1">{{ item.nickname }}</view>
+						<view class="team-table-list-item item-2">{{
+              item.levelName
+            }}</view>
+						<view class="team-table-list-item item-3">{{
+              item.subMemberCount
+            }}</view>
 						<view class="team-table-list-item item-4">312</view>
 					</view>
 				</view>
@@ -123,11 +101,102 @@
 		</view>
 		<view class="my-exchange" v-if="curIndex == 2">
 			<view class="my-exchange-title">请输入您的兑换码</view>
-			<input class="my-exchange-input" type="text" value="qwe" />
-			<view class="my-exchange-button">兑换</view>
+			<input class="my-exchange-input" type="text" v-model="exchangeCode" />
+			<view class="my-exchange-button" @click="onExchangeCode">兑换</view>
 		</view>
-		<view class="my-userinfo" v-if="curIndex == 4">
-			账户
+		<view class="my-userinfo" v-if="curIndex == 3">
+			<view class="my-userinfo-top-box">
+				<view class="user-data-list-box">
+					<view class="user-data-item-box">
+						<view class="user-data-item-label">游戏局数</view>
+						<view class="user-data-item-text">123</view>
+					</view>
+					<view class="user-data-item-box">
+						<view class="user-data-item-label">胜利局数</view>
+						<view class="user-data-item-text">123</view>
+					</view>
+				</view>
+				<view class="user-data-list-box">
+					<view class="user-data-item-box">
+						<view class="user-data-item-label">失败局数</view>
+						<view class="user-data-item-text">213</view>
+					</view>
+					<view class="user-data-item-box">
+						<view class="user-data-item-label">账号级别</view>
+						<view class="user-data-item-text">{{userInfo.level && userInfo.level.name}}</view>
+					</view>
+				</view>
+			</view>
+			<view class="my-userinfo-copy-box">
+				<view class="my-userinfo-copy-item">
+					<view class="my-userinfo-copy-item-text">
+						<view> 我的邀请码: </view>
+						<image @click="copyText(userInfo.inviteCode)" class="my-userinfo-copy-image"
+							src="/static/image/com/copy-icon.png"></image>
+					</view>
+					<view class="my-userinfo-copy-text">{{ userInfo.inviteCode }}</view>
+				</view>
+				<view class="my-userinfo-copy-item">
+					<view class="my-userinfo-copy-item-text">
+						<view> 我的邀请链接: </view>
+						<image @click="copyText(userInfo.inviteUrl)" class="my-userinfo-copy-image"
+							src="/static/image/com/copy-icon.png"></image>
+					</view>
+					<view class="my-userinfo-copy-text">{{ userInfo.inviteUrl }}</view>
+				</view>
+			</view>
+			<view class="button-box">
+				<view class="logout-button" @click="onLogout">退出登录</view>
+			</view>
+		</view>
+		<view class="popup-list">
+			<mg-popup ref="bagRubyPopup" class="bag-ruby-popup" width="700rpx" height="630rpx">
+				<view class="bag-ruby-box">
+					<view class="bag-top-title">您当前拥有</view>
+					<image class="bag-ruby-image" mode="aspectFit" :src="openItem.displayUrl"></image>
+					<view class="bag-ruby-number-text">{{openItem.stackCount}}</view>
+					<view class="bag-ruby-bili-text">兑换比例：12.5筹码=1 MG Token</view>
+					<view class="bag-ruby-text-list">
+						<view>MGT发行后，即刻开放红宝石兑换，</view>
+						<view>敬请期待！</view>
+					</view>
+				</view>
+			</mg-popup>
+			<mg-popup ref="bagTotemPopup" class="bag-totem-popup" width="700rpx" height="720rpx">
+				<view class="bag-totem-box">
+					<div class="bag-totem-top-box">
+						<image class="bag-totem-top-image" mode="aspectFit" :src="openItem.displayUrl"></image>
+						<view class="bag-totem-top-text-list">
+							<view class="bag-totem-top-text-item big">利古里古</view>
+							<view class="bag-totem-top-text-item">每日生产：{{6654.23}}</view>
+							<view class="bag-totem-top-text-item">生产周期：{{openItem.maxUsageCount}}天</view>
+							<view class="bag-totem-top-text-item">总生产量：{{openItem.maxRubyReserve}}</view>
+							<!-- <view class="bag-totem-top-text-item">已用天数：{{openItem.maxUsageCount}}天</view> -->
+							<view class="bag-totem-top-text-item">已用天数：0天</view>
+							<view class="bag-totem-top-text-item">剩余天数：{{openItem.leftUsageCount}}天</view>
+							<view class="bag-totem-top-text-item">剩余产量：{{openItem.leftRubyReserve}}</view>
+							<view class="bag-totem-top-text-item">购买价格：{{openItem.buyPrice}}U</view>
+						</view>
+					</div>
+					<view class="button-box totem-popup">
+						<view class="popup-button" @click="onEquipTotem()">安装</view>
+					</view>
+				</view>
+			</mg-popup>
+			<mg-popup ref="bagTotemErrorPopup" class="bag-totem-error-popup" width="700rpx" height="630rpx">
+				<view class="bag-totem-box">
+					<div class="bag-totem-top-box bag-totem-error-top-box">
+						<image class="bag-totem-top-image" mode="aspectFit" :src="openItem.displayUrl"></image>
+						<view class="bag-totem-top-text-list">
+							<view class="bag-totem-top-text-item">您的世界树里已经有其他图腾存在，</view>
+							<view class="bag-totem-top-text-item">请先去世界树卸载图腾再行安装。</view>
+						</view>
+					</div>
+					<view class="button-box totem-popup">
+						<view class="popup-button" @click="closePopup('bagTotemErrorPopup')">确认</view>
+					</view>
+				</view>
+			</mg-popup>
 		</view>
 		<tab-bar></tab-bar>
 	</view>
@@ -135,34 +204,187 @@
 
 <script>
 	import {
-		mapState
-	} from 'vuex' //引入mapState
+		mapState,
+		mapActions
+	} from "vuex"; //引入mapState
+	import {
+		equipTotem,
+		getMyBagData,
+		getTeamInfo,
+		redeemItem
+	} from "../../request/api";
 	export default {
 		data() {
 			return {
-				curIndex: 0
-			}
+				curIndex: 0,
+				bagData: {},
+				bagList: [],
+				nullBoxNum: 3,
+				openItem: {},
+				teamInfo: {
+					directlyMemberList: [],
+				},
+				exchangeCode: "",
+			};
 		},
 		computed: {
 			...mapState({
-				language: state => state.language
+				userInfo: (state) => state.web3.userInfo,
+				tokenInfo: (state) => state.web3.tokenInfo,
 			}),
+
 		},
-		onLoad(e) {},
+		onLoad(e) {
+			this.onInitData();
+		},
 		onShow() {},
 		onHide() {},
 		methods: {
+			...mapActions("web3", ["onLogout"]),
+			httpGetTeamInfo() {
+				getTeamInfo().then((res) => {
+					console.log(res.data);
+					this.teamInfo = res.data;
+				});
+			},
+			onBagItem(item) {
+				this.openItem = item;
+				console.log(item)
+				switch (item.itemClass) {
+					// 图腾
+					case 1:
+						this.openPopup('bagTotemPopup')
+						break;
+						// 货币
+					case 2:
+						this.openPopup("bagRubyPopup")
+						break;
+						// 道具
+					case 3:
+						break;
+						// 碎片
+					case 4:
+						break;
+				}
+			},
+			onEquipTotem() {
+				console.log(this.openItem)
+				equipTotem({
+					id: this.openItem.id
+				}).then(res => {
+					uni.showToast({
+						title: "安装成功!",
+						icon: "none"
+					})
+					this.closePopup("bagTotemPopup")
+				}).catch(err => {
+					if (err.data.code == 2001001001) {
+						this.openPopup("bagTotemErrorPopup", "bagTotemPopup")
+					}
+				})
+			},
+			openPopup(name, closeName) {
+				if (typeof closeName === "string") {
+					this.$refs[closeName].close();
+				}
+				if (typeof closeName === "array") {
+					for (let i = 0; i < closeName.length; i++) {
+						this.$refs[closeName[i]].close();
+					}
+				}
+				if (this.$refs[name]) {
+					this.$refs[name].open();
+				}
+			},
+			closePopup(name) {
+				if (this.$refs[name]) {
+					this.$refs[name].close();
+				}
+			},
+			onInitData() {
+				this.httpGetMyBagData();
+			},
+			httpGetMyBagData() {
+				getMyBagData().then((res) => {
+					if (res.data) {
+						this.bagData = res.data;
+						this.bagList = res.data.itemList;
+						let len = this.bagList.length
+						this.nullBoxNum = parseInt(this.bagData.maxSlotCount - len)
+					}
+				});
+			},
+			copyText(e) {
+				uni.setClipboardData({
+					data: e,
+					success: () => {
+						uni.showToast({
+							title: "复制成功",
+							icon: "none",
+						});
+					},
+					fail: (res) => {
+						console.log(res);
+						uni.showToast({
+							title: "复制失败",
+							icon: "none",
+						});
+					},
+				});
+			},
+			onExchangeCode() {
+				if (
+					!this.exchangeCode ||
+					this.exchangeCode == "" ||
+					this.exchangeCode.trim() == ""
+				) {
+					uni.showToast({
+						title: "请先输入兑换码!",
+						icon: "none",
+					});
+					return;
+				}
+				redeemItem({
+						redeemCode: this.exchangeCode,
+					})
+					.then((res) => {
+						uni.showToast({
+							title: "兑换成功",
+							icon: "none",
+						});
+					})
+					.catch((err) => {
+						uni.showToast({
+							title: err.data.msg,
+							icon: "none",
+						});
+					});
+			},
 			onClickTab(type) {
-				this.curIndex = type
-			}
-		}
-	}
+				this.curIndex = type;
+				switch (type) {
+					case 0:
+						this.httpGetMyBagData();
+						break;
+					case 1:
+						this.httpGetTeamInfo();
+						break;
+					default:
+						break;
+				}
+			},
+		},
+	};
 </script>
 
 <style scoped>
+	page {
+		background-color: #ffecb8;
+	}
+
 	.my-page-tab {
 		padding: 45rpx 0;
-		background: #FFDB7B;
+		background: #ffdb7b;
 		box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.5);
 		position: relative;
 		z-index: 9;
@@ -208,11 +430,18 @@
 		text-align: center;
 	}
 
-	.my-backpack {
+	.backpack-list-box {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		gap: 6rpx;
+	}
+
+	.my-backpack {
 		padding: 70rpx 27rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
 	}
 
 	.backpack-item {
@@ -236,39 +465,14 @@
 	}
 
 	.backpack-add-icon {
-		width: 70rpx;
-		height: 70rpx;
+		width: 100rpx;
+		height: 80rpx;
 		margin-bottom: 20rpx;
-	}
-
-	.backpack-add-icon.ruby {
-		width: 69rpx;
-		height: 83rpx;
-	}
-
-	.backpack-add-icon.alhh {
-		width: 63rpx;
-		height: 95rpx;
-	}
-
-	.backpack-add-icon.lsck {
-		width: 106rpx;
-		height: 54rpx;
-	}
-
-	.backpack-add-icon.dtzy {
-		width: 107rpx;
-		height: 60rpx;
-	}
-
-	.backpack-add-icon.jcxd {
-		width: 78rpx;
-		height: 81rpx;
 	}
 
 	.my-team-top-box {
 		padding: 50rpx 0;
-		background: #FFECB8;
+		background: #ffecb8;
 		box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.5);
 		display: flex;
 		flex-direction: column;
@@ -310,7 +514,7 @@
 		display: flex;
 		height: 51rpx;
 		gap: 30rpx;
-		background: #FF9C00;
+		background: #ff9c00;
 		border-radius: 20rpx 20rpx 0 0;
 		color: #fff;
 		align-items: center;
@@ -324,7 +528,7 @@
 	}
 
 	.team-table-list.color-bg {
-		background: #FFECB8;
+		background: #fbe29d;
 	}
 
 	.team-table-list-item {
@@ -394,5 +598,167 @@
 		justify-content: center;
 		font-size: 35rpx;
 		color: #000000;
+	}
+
+	.my-userinfo-top-box {
+		padding: 40rpx 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.user-data-list-box {
+		padding: 20rpx 0;
+		display: flex;
+		color: #000000;
+	}
+
+	.user-data-item-box {
+		flex: 1;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+	}
+
+	.user-data-item-label,
+	.user-data-item-text {
+		font-weight: 600;
+		flex: 1;
+	}
+
+	.user-data-item-label {
+		font-size: 35rpx;
+		text-align: right;
+	}
+
+	.user-data-item-text {
+		line-height: 30rpx;
+		margin-left: 30rpx;
+		font-size: 21rpx;
+		text-align: left;
+	}
+
+	.my-userinfo-copy-box {
+		margin-top: 100rpx;
+		padding: 0 50rpx;
+		font-size: 35rpx;
+		font-weight: 600;
+		color: #000000;
+	}
+
+	.my-userinfo-copy-item {
+		margin-bottom: 30rpx;
+	}
+
+	.my-userinfo-copy-item-text {
+		display: flex;
+		align-items: center;
+		gap: 20rpx;
+	}
+
+	.my-userinfo-copy-image {
+		width: 30rpx;
+		height: 31rpx;
+	}
+
+	.my-userinfo-copy-text {
+		margin-top: 30rpx;
+		word-wrap: break-word;
+		font-size: 21rpx;
+	}
+
+	.button-box {
+		margin-top: 130rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.logout-button {
+		width: 223rpx;
+		height: 83rpx;
+		background: url("/static/image/com/btn_bg.png") no-repeat;
+		background-size: 100% 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 35rpx;
+	}
+
+	.popup-button {
+		width: 223rpx;
+		height: 83rpx;
+		background: url("/static/image/com/btn_bg_w.png") no-repeat;
+		background-size: 100% 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 35rpx;
+	}
+
+	.bag-ruby-box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.bag-ruby-image {
+		width: 100rpx;
+		height: 80rpx;
+	}
+
+	.bag-top-title {
+		margin-top: 35rpx;
+		font-size: 28rpx;
+		font-weight: 600;
+		margin-bottom: 30rpx;
+	}
+
+	.bag-ruby-number-text {
+		margin-top: 33rpx;
+		font-size: 70rpx;
+		font-weight: 600;
+		margin-bottom: 42rpx;
+	}
+
+	.bag-ruby-bili-text {
+		color: #00eaff;
+		font-size: 28rpx;
+		margin-bottom: 44rpx;
+	}
+
+	.bag-ruby-text-list {
+		font-size: 28rpx;
+		text-align: center;
+	}
+
+	.bag-totem-top-box {
+		margin-top: 66rpx;
+		display: flex;
+		justify-content: center;
+		gap: 74rpx;
+	}
+
+	.bag-totem-error-top-box {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.bag-totem-top-image {
+		width: 80rpx;
+		height: 120rpx;
+	}
+
+	.bag-totem-top-text-item {
+		font-weight: 600;
+		font-size: 28rpx;
+	}
+
+	.bag-totem-top-text-item.big {
+		font-size: 42rpx;
+		margin-bottom: 30rpx;
+	}
+
+	.totem-popup {
+		margin-top: 60rpx;
 	}
 </style>

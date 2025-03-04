@@ -1,6 +1,7 @@
 // #ifndef VUE3
 import Vue from 'vue'
 import Vuex from 'vuex'
+import web3 from './modules/web3'
 Vue.use(Vuex)
 const store = new Vuex.Store({
 			// #endif
@@ -67,6 +68,9 @@ const store = new Vuex.Store({
 					getPhoneNumber: function({
 						commit
 					}, univerifyInfo) {}
+				},
+				modules: {
+					web3
 				}
 			})
 

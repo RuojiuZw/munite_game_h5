@@ -2,37 +2,26 @@
 	<view class="index-page">
 		<top-login-bar></top-login-bar>
 		<view class="game-top-box-bg">
-			<view class="game-top-title-box">
-				<view>Munite Gme,</view>
-				<view>There are no losers</view>
+			<view class="game-top-box-images">
+				<image class="top-box-image-1" src="/static/image/game/quad-pick/game-icon.png" mode="aspectFit">
+				</image>
+				<image class="top-box-image-title" src="/static/image/game/quad-pick/game-title.png" mode="aspectFit">
+				</image>
 			</view>
-			<image class="game-top-box-bg-icon" src="@/static/image/game/game-top-icon.png" />
 			<view class="game-top-box-number-people-box">
 				<view class="text">当前</view>
-				<view class="number">{{homePageData.totalCount}}</view>
+				<view class="number">{{homePageData.quadPickCount}}</view>
 				<view class="text">人</view>
 			</view>
-		</view>
-		<view class="game-box-list">
-			<view class="game-box-item" @click="openGame(1)">
-				<view class="game-now-people-text">{{homePageData.quadPickCount}}人</view>
-				<image class="game-box-item-bg-icon icon-1" src="@/static/image/game/game-icon-1.png" />
-				<view class="game-title">休闲四选一</view>
-			</view>
-			<view class="game-box-item" @click="openGame(2)">
-				<view class="game-now-people-text">{{homePageData.tigerClashCount}}人</view>
-				<image class="game-box-item-bg-icon icon-2" src="@/static/image/game/game-icon-2.png" />
-				<view class="game-title">虎王争雄</view>
+			<view class="game-top-box-game-rule" @click="openPopup('gameRulePopup')">
+				<image class="game-top-box-game-rule-image" src="/static/image/game/quad-pick/book.png" mode="aspectFit"></image>
+				<view class="game-top-box-game-rule-text">游戏规则</view>
 			</view>
 		</view>
-		<mg-popup ref="noOpenPopup" width="700rpx" height="630rpx">
-			<view class="no-open-box">
-				<image class="no-open-big-image" src="@/static/image/game/game-icon-2.png"></image>
-				<view class="no-open-text-list">
-					<view>目前是MG试运营阶段，</view>
-					<view>虎王争雄暂未开放，</view>
-					<view>敬请期待！</view>
-				</view>
+
+		<mg-popup ref="gameRulePopup" width="700rpx" height="630rpx">
+			<view class="game-rule-popup-box">
+				
 			</view>
 		</mg-popup>
 		<tab-bar></tab-bar>
@@ -44,8 +33,8 @@
 		mapState
 	} from "vuex"; //引入mapState
 	import {
-		getGamePage
-	} from "../../request/api";
+		getGameQuadPickHome
+	} from "../../../request/api";
 	export default {
 		data() {
 			return {
@@ -64,28 +53,46 @@
 		onHide() {},
 		methods: {
 			onInitData() {
-				getGamePage().then(res => {
-					console.log(res.data)
+				getGameQuadPickHome().then(res => {
 					this.homePageData = res.data
 				}).catch(err => {
-					console.log("获取失败 使用测试数据")
 					this.homePageData = {
-						"quadPickCount": 255,
-						"tigerClashCount": 255,
-						"totalCount": 255
+						"roomList": [{
+							"id": 1024,
+							"displayUrl": "http://",
+							"rubyCost": 1,
+							"inactive": false,
+							"memberCount": 255
+						}],
+						"quadPickCount": 255
 					}
 				})
 			},
 			openGame(type) {
 				switch (type) {
 					case 1:
-						uni.navigateTo({
-							url: "/pages/game/quadPick/index"
-						})
 						break;
 					case 2:
 						this.showNoOpenPopup()
 						break;
+				}
+			},
+			openPopup(name, closeName) {
+				if (typeof closeName === "string") {
+					this.$refs[closeName].close();
+				}
+				if (typeof closeName === "array") {
+					for (let i = 0; i < closeName.length; i++) {
+						this.$refs[closeName[i]].close();
+					}
+				}
+				if (this.$refs[name]) {
+					this.$refs[name].open();
+				}
+			},
+			closePopup(name) {
+				if (this.$refs[name]) {
+					this.$refs[name].close();
 				}
 			},
 			showNoOpenPopup() {
@@ -118,8 +125,8 @@
 		display: flex;
 		align-items: center;
 		position: absolute;
-		top: 160rpx;
-		left: 42rpx;
+		top: 49rpx;
+		left: 28rpx;
 	}
 
 	.game-top-box-bg-icon {
@@ -129,17 +136,8 @@
 		bottom: 20rpx;
 	}
 
-	.game-top-title-box {
-		font-family: AgencyFB, AgencyFB;
-		font-weight: normal;
-		font-size: 36rpx;
-		position: absolute;
-		top: 26rpx;
-		text-align: center;
-	}
-
 	.game-top-box-number-people-box .text {
-		font-size: 26rpx;
+		font-size: 28rpx;
 		margin-top: 10rpx;
 	}
 
@@ -188,26 +186,36 @@
 		height: 143rpx;
 	}
 
-
-
-	.no-open-big-image {
-		margin-top: 50rpx;
-		width: 186rpx;
-		height: 143rpx;
-	}
-
-	.no-open-text-list {
-		margin-top: 60rpx;
-		color: #fff;
-		line-height: 46rpx;
-		font-weight: 600;
-		font-size: 32rpx;
-		text-align: center;
-	}
-
-	.no-open-box {
+	.game-top-box-images {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		gap: 16rpx;
+	}
+
+	.top-box-image-1 {
+		width: 227rpx;
+		height: 227rpx;
+	}
+
+	.top-box-image-title {
+		width: 207rpx;
+		height: 39rpx;
+	}
+	.game-top-box-game-rule{
+		position: absolute;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		left: 56rpx;
+		top: 154rpx;
+		gap: 16rpx;
+	}
+	.game-top-box-game-rule-image{
+		width: 130rpx;
+		height: 97rpx;
+	}
+	.game-top-box-game-rule-text{
+		font-size: 28rpx;
 	}
 </style>

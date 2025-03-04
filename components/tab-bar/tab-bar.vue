@@ -45,6 +45,7 @@
 		gap: 40rpx;
 		position: fixed;
 		bottom: 0;
+		left: 0;
 		width: 100%;
 		height: 184rpx;
 		background: url("@/static/image/tabbar/tab-bar-bg.png") no-repeat;

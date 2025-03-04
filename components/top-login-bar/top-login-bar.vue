@@ -1,7 +1,7 @@
 <template>
 	<view class="top-login-bar">
 		<view class="left-box">
-			<image class="logo-icon" src="/static/image/com/logo_w.png"></image>
+			<image class="logo-icon" src="@/static/image/com/logo_w.png"></image>
 			<view class="left-text-list">
 				<view class="top-title">Munite Game</view>
 				<view class="top-text">一个没有输家的游戏</view>
@@ -9,38 +9,65 @@
 		</view>
 		<view class="right-box">
 			<view class="right-text-list">
-				<view class="right-name">Munite Game</view>
-				<view class="right-lv">LV:01</view>
+				<view class="right-name">{{ userInfo.username || "" }}</view>
+				<view class="right-lv" v-if="userInfo.level">Lv:{{ userInfo.level.level || 0 }}</view>
 			</view>
-			<image class="header-icon" src="/static/image/com/logo_w.png"></image>
+			<image @click="toMyUserInfo()" class="header-icon" :src="userInfo.avatar"></image>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		mapState,
+		mapActions,
+		mapMutations
+	} from "vuex";
+	import {
+		getBaseInfo
+	} from "../../request/api";
 	export default {
 		name: "top-login-bar",
 		data() {
-			return {};
+			return {
+			};
 		},
-		mounted() {},
-		methods: {}
-	}
+		computed: {
+			...mapState({
+				userInfo: (state) => state.web3.userInfo,
+				tokenInfo: (state) => state.web3.tokenInfo,
+			}),
+		},
+		mounted() {
+			this.onInitData();
+		},
+		methods: {
+			...mapActions("web3", ["refreshToken", "refreshUserInfo"]),
+			async onInitData() {
+				this.refreshUserInfo()
+			},
+			toMyUserInfo() {
+				uni.navigateTo({
+					url: "/pages/myPage/index",
+				});
+			},
+		},
+	};
 </script>
 
 <style scoped>
 	.top-login-bar {
 		width: 100%;
 		height: 169rpx;
-		background: #FFDB7B;
+		background: #ffdb7b;
 		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.8);
 		display: flex;
 		position: relative;
-		z-index: 999;
+		z-index: 99;
 	}
 
 	.left-box {
-		background: #FF9C00;
+		background: #ff9c00;
 		width: 360rpx;
 		height: 100%;
 		display: flex;
@@ -48,7 +75,6 @@
 		justify-content: center;
 		box-shadow: 2px 0px 8rpx rgba(0, 0, 0, 0.3);
 	}
-
 
 	.logo-icon {
 		width: 111rpx;

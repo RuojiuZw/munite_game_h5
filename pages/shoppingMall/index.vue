@@ -3,79 +3,96 @@
 		<top-login-bar></top-login-bar>
 		<view class="shopping-content">
 			<view class="shopping-list-item shop">
-				<view class="shop-tab-bar-box">
-					MG商城
-				</view>
+				<view class="shop-tab-bar-box"> MG商城 </view>
 				<view class="shop-list">
 					<view class="shop-item-box">
-						<image class="shop-icon-cart" src="/static/image/shoppingMall/shopping_cart.png"></image>
+						<image class="shop-icon-cart" src="@/static/image/shoppingMall/shopping_cart.png"></image>
 					</view>
 					<view class="shop-item-box">
 						<view class="shop-item-title">MG Token</view>
-						<image class="shop-icon-mg" src="/static/image/shoppingMall/mg.png"></image>
+						<image class="shop-icon-mg" src="@/static/image/shoppingMall/mg.png"></image>
 						<view class="shop-item-number">X1</view>
 					</view>
 					<view class="shop-item-box">
 						<view class="shop-item-title-big">=</view>
 					</view>
-					<view class="shop-item-box">
+					<view class="shop-item-box" @click="openPopup('buyRubyPopup')">
 						<view class="shop-item-title">红宝石</view>
-						<image class="shop-icon-ruby" src="/static/image/shoppingMall/ruby.png"></image>
+						<image class="shop-icon-ruby" src="@/static/image/shoppingMall/ruby.png"></image>
 						<view class="shop-item-number">X10</view>
 					</view>
 				</view>
-				<image class="buy-now-tips" src="/static/image/shoppingMall/now_buy.png"></image>
+				<image class="buy-now-tips" @click="openPopup('buyRubyPopup')"
+					src="@/static/image/shoppingMall/now_buy.png"></image>
 			</view>
 			<view class="shopping-list-item tuteng">
-				<view class="shop-tab-bar-box">
-					MG图腾
-				</view>
+				<view class="shop-tab-bar-box">MG图腾</view>
 				<view class="shop-tuteng-list">
-					<view class="shop-tuteng-item">
-						<view class="tuteng-title">阿鲁呼呼</view>
-						<image class="tuteng-icon alhh" src="/static/image/shoppingMall/alhh.png"></image>
-						<view class="tuteng-text">60x</view>
-					</view>
-					<view class="shop-tuteng-item">
-						<view class="tuteng-title">哒嗉哩哩</view>
-						<image class="tuteng-icon dsll" src="/static/image/shoppingMall/dsll.png"></image>
-						<view class="tuteng-text">100x</view>
-					</view>
-					<view class="shop-tuteng-item">
-						<view class="tuteng-title">咇折斯里</view>
-						<image class="tuteng-icon szsl" src="/static/image/shoppingMall/szsl.png"></image>
-						<view class="tuteng-text">200x</view>
-					</view>
-					<view class="shop-tuteng-item">
-						<view class="tuteng-title">蒙呐多哈</view>
-						<image class="tuteng-icon mndh" src="/static/image/shoppingMall/mndh.png"></image>
-						<view class="tuteng-text">400x</view>
+					<view class="shop-tuteng-item" v-for="(item, index) in totemList" :key="index"
+						@click="openPopup('buyTutengPopup',item)">
+						<view class="tuteng-title">{{ item.name }}</view>
+						<image class="tuteng-icon" :src="item.displayUrl" mode="aspectFit"></image>
+						<view class="tuteng-text">{{ item.price }}x</view>
 					</view>
 				</view>
 			</view>
 			<view class="shopping-list-item jjdj">
-				<view class="shop-tab-bar-box">
-					竞技道具
-				</view>
-				<view class="shop-jjdj-list">
-					<view class="shop-jjdj-item">
-						<view class="jjdj-title">灯塔之眼</view>
-						<image class="jjdj-icon dtzy" src="/static/image/shoppingMall/dtzy.png"></image>
-						<view class="jjdj-text">30Usdt</view>
-					</view>
-					<view class="shop-jjdj-item">
-						<view class="jjdj-title">历史查看</view>
-						<image class="jjdj-icon lsck" src="/static/image/shoppingMall/lsck.png"></image>
-						<view class="jjdj-text">30Usdt</view>
-					</view>
-					<view class="shop-jjdj-item">
-						<view class="jjdj-title">解除限定</view>
-						<image class="jjdj-icon jcxd" src="/static/image/shoppingMall/jcxd.png"></image>
-						<view class="jjdj-text">30Usdt</view>
+				<view class="shop-tab-bar-box">竞技道具</view>
+				<view class="shop-tuteng-list">
+					<view class="shop-tuteng-item" v-for="(item, index) in propList" :key="index"
+						@click="openPopup('jjdjPopup')">
+						<view class="tuteng-title">{{ item.name }}</view>
+						<image class="jjdj-icon" :src="item.displayUrl" mode="aspectFit"></image>
+						<view class="jjdj-text">{{ item.price }}{{ item.currency }}</view>
 					</view>
 				</view>
 			</view>
 		</view>
+		<mg-popup ref="jjdjPopup" width="700rpx" height="630rpx">
+			<view class="jjdj-popup-box">
+				<view class="jjdj-image-list-box">
+					<image class="jjdj-icon dtzy" src="@/static/image/shoppingMall/dtzy.png"></image>
+					<image class="jjdj-icon lsck" src="@/static/image/shoppingMall/lsck.png"></image>
+					<image class="jjdj-icon jcxd" src="@/static/image/shoppingMall/jcxd.png"></image>
+				</view>
+				<view class="jjdj-popup-text-box">
+					<view class="jjdj-popup-text">
+						<view class="jjdj-popup-text-item">竞技道具的自由购买暂未开放，</view>
+						<view class="jjdj-popup-text-item">在测试期，会员进行游戏时，</view>
+						<view class="jjdj-popup-text-item color-blue">可以免费使用道具。</view>
+						<view class="jjdj-popup-text-item">敬请期待！</view>
+					</view>
+				</view>
+			</view>
+		</mg-popup>
+		<mg-popup ref="buyRubyPopup" width="700rpx" height="660rpx">
+			<view class="buy-ruby-popup-box">
+				<image class="buy-ruby-popup-icon" src="@/static/image/shoppingMall/ruby.png"></image>
+				<view class="popup-text-list">
+					<view class="popup-text-item color-blue ruby-title">1 MGT 购买 10 红宝石</view>
+					<view class="popup-text-item">红宝石的自由购买暂未开放， </view>
+					<view class="popup-text-item">会员可以通过以下方式获得：</view>
+					<view class="popup-text-item">1、成为节点；</view>
+					<view class="popup-text-item">2、向节点申请测试期试玩包；</view>
+					<view class="popup-text-item">3、每日到世界数打卡；</view>
+					<view class="popup-text-item ruby-jqqd">敬请期待！</view>
+				</view>
+			</view>
+		</mg-popup>
+		<mg-popup ref="buyTutengPopup" width="700rpx" height="660rpx">
+			<view class="buy-tuteng-popup-box">
+				<image class="tuteng-icon" mode="aspectFit" :src="curTuTengInfo.displayUrl"></image>
+				<view class="popup-text-list">
+					<view class="popup-text-item  tuteng-popup-title first-tuteng-popup-text">图腾购买价格为：</view>
+					<view class="popup-text-item  tuteng-popup-title">价格系数 x 实时MGT价格</view>
+
+					<view class="popup-text-item first-tuteng-popup-text">图腾的自由购买暂未开放，</view>
+					<view class="popup-text-item">会员可以通过以下方式获得：</view>
+					<view class="popup-text-item">成为节点得到特殊图腾；</view>
+					<view class="popup-text-item ruby-jqqd">敬请期待！</view>
+				</view>
+			</view>
+		</mg-popup>
 		<tab-bar></tab-bar>
 	</view>
 </template>
@@ -83,21 +100,50 @@
 <script>
 	import {
 		mapState
-	} from 'vuex' //引入mapState
+	} from "vuex"; //引入mapState
+	import {
+		getShopPropList,
+		getShopTotemList
+	} from "../../request/api";
 	export default {
 		data() {
-			return {}
+			return {
+				propList: [],
+				totemList: [],
+				curTuTengInfo: {}
+			};
 		},
 		computed: {
 			...mapState({
-				language: state => state.language
+				language: (state) => state.language,
 			}),
 		},
-		onLoad(e) {},
+		onLoad(e) {
+			this.onInitData();
+		},
 		onShow() {},
 		onHide() {},
-		methods: {}
-	}
+		methods: {
+			onInitData() {
+				getShopPropList().then((res) => {
+					console.log(res);
+					this.propList = res.data;
+				});
+				getShopTotemList().then((res) => {
+					console.log(res);
+					this.totemList = res.data;
+				});
+			},
+			openPopup(popup, data) {
+				if (this.$refs[popup]) {
+					this.$refs[popup].open();
+				}
+				if (popup == 'buyTutengPopup') {
+					this.curTuTengInfo = data
+				}
+			},
+		},
+	};
 </script>
 
 <style scoped>
@@ -112,7 +158,7 @@
 
 	.shopping-list-item.shop {
 		height: 300rpx;
-		background: #FFDB7B;
+		background: #ffdb7b;
 		background-image: url("/static/image/com/logo_no_color.png");
 		background-size: auto 100%;
 		background-repeat: no-repeat;
@@ -123,7 +169,7 @@
 
 	.shopping-list-item.tuteng {
 		height: 400rpx;
-		background: #FFECB8;
+		background: #ffecb8;
 		box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.5);
 		z-index: 8;
 	}
@@ -208,48 +254,43 @@
 	}
 
 	.shop-tuteng-list {
-		margin-top: 180rpx;
+		margin-top: 120rpx;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		gap: 97rpx;
+		overflow-x: auto;
+		white-space: nowrap;
+		padding: 0 40rpx;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
 		position: relative;
 	}
 
+	.shop-tuteng-list::-webkit-scrollbar {
+		display: none;
+	}
+
 	.shop-tuteng-item {
+		min-width: 120rpx;
+		margin-right: 60rpx;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
+		flex-shrink: 0;
 	}
 
-	.tuteng-icon.alhh {
+	.shop-tuteng-item:last-child {
+		margin-right: 0;
+	}
+
+	.tuteng-icon {
+		margin-top: 10rpx;
 		width: 79rpx;
-		height: 118rpx;
-	}
-
-	.tuteng-icon.dsll {
-		width: 93rpx;
-		height: 119rpx;
-	}
-
-	.tuteng-icon.szsl {
-		width: 83rpx;
-		height: 118rpx;
-	}
-
-	.tuteng-icon.mndh {
-		width: 79rpx;
-		height: 108rpx;
-	}
-
-	.tuteng-title {
-		position: absolute;
-		top: -50rpx;
+		height: 120rpx;
 	}
 
 	.tuteng-text,
 	.jjdj-text {
+		margin-top: 20rpx;
 		width: 120rpx;
 		height: 35rpx;
 		background: #000000;
@@ -257,11 +298,10 @@
 		padding: 0 21rpx;
 		box-sizing: border-box;
 		color: #fff;
-		position: absolute;
-		bottom: -70rpx;
 		font-size: 22rpx;
 		display: flex;
 		align-items: center;
+		justify-content: center;
 	}
 
 	.shop-jjdj-list {
@@ -276,7 +316,7 @@
 		position: relative;
 		width: 140rpx;
 		height: 140rpx;
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 	}
@@ -288,22 +328,72 @@
 		text-align: center;
 	}
 
-	.jjdj-icon.dtzy {
+	.jjdj-icon {
+		margin-top: 30rpx;
 		width: 107rpx;
 		height: 60rpx;
 	}
 
-	.jjdj-icon.lsck {
-		width: 106rpx;
-		height: 54rpx;
+	.jjdj-image-list-box {
+		margin-top: 66rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 80rpx;
 	}
 
-	.jjdj-icon.jcxd {
-		width: 78rpx;
-		height: 81rpx;
+	.jjdj-popup-text {
+		margin-top: 76rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-size: 28rpx;
+		color: #fff;
 	}
 
-	.jjdj-text {
-		bottom: -30rpx;
+	.jjdj-popup-text-item {
+		width: 400rpx;
+	}
+
+	.color-blue {
+		color: #00eaff;
+		margin-bottom: 32rpx;
+	}
+
+	.buy-ruby-popup-box,
+	.buy-tuteng-popup-box {
+		margin-top: 48rpx;
+		display: flex;
+		align-items: center;
+		/* justify-content: center; */
+		flex-direction: column;
+	}
+
+	.buy-ruby-popup-icon {
+		width: 71rpx;
+		height: 85rpx;
+	}
+
+	.popup-text-list {
+		font-size: 28rpx;
+		font-weight: 600;
+		color: #fff;
+	}
+
+	.ruby-title {
+		font-size: 35rpx;
+		margin-top: 30rpx;
+	}
+
+	.ruby-jqqd {
+		margin-top: 32rpx;
+	}
+	.first-tuteng-popup-text{
+		margin-top: 32rpx;
+	}
+	.tuteng-popup-title {
+		font-size: 35rpx;
+		color: #00eaff;
+		text-align: center;
 	}
 </style>
