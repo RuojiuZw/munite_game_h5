@@ -4,7 +4,7 @@
 			<image class="logo-icon" src="@/static/image/com/logo_w.png"></image>
 			<view class="left-text-list">
 				<view class="top-title">Munite Game</view>
-				<view class="top-text">一个没有输家的游戏</view>
+				<view class="top-text">一個沒有輸家的遊戲</view>
 			</view>
 		</view>
 		<view class="right-box">

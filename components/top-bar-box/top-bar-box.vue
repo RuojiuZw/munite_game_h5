@@ -2,7 +2,7 @@
 	<view class="top-bar-box">
 		<img src="@/static/image/com/logo_color.png" class="top-bar-logo" />
 		<view class="top-bar-title">Munite Game</view>
-		<view class="top-bar-text">一个没有输家的游戏</view>
+		<view class="top-bar-text">一個沒有輸家的遊戲</view>
 	</view>
 </template>
 

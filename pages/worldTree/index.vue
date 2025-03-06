@@ -37,11 +37,11 @@
 			<image class="bottom-tree-image" src="@/static/image/worldTree/world-tree-icon.png" />
 			<view class="bottom-tree-text-box">
 				<view class="bottom-tree-text">
-					世界树是一组丢弃权限的智能合约，在将来
-					MGT的游戏世界中，世界树通过智能算法，
-					自动的实现对MGT的市值管理和游戏世界的 数值均衡。
+					世界樹是一組丟棄權限的智能合約，在將來
+					MGT的遊戲世界中，世界樹通過智能算法，
+					自動的實現對MGT的市值管理和遊戲世界的數值均衡。
 				</view>
-				<view class="bottom-tree-text">目前世界树暂未开放，敬请期待。 </view>
+				<view class="bottom-tree-text">目前世界樹暫未開放，敬請期待。 </view>
 			</view>
 		</view>
 		<view class="popup-list">
@@ -55,40 +55,40 @@
 					</view>
 					<view class="popup-info-text-list-box">
 						<view class="ruby-info-text-list-item">
-							<view class="ruby-info-text-list-item-text">总产量:</view>
+							<view class="ruby-info-text-list-item-text">總產量:</view>
 							<view class="ruby-info-text-list-item-number">{{
                 treeInfo.rubyDailyAmountByTotem +
                   treeInfo.rubyDailyAmountByDebris || 0
               }}</view>
 						</view>
 						<view class="ruby-info-text-list-item">
-							<view class="ruby-info-text-list-item-text">图腾日产:</view>
+							<view class="ruby-info-text-list-item-text">圖騰日產:</view>
 							<view class="ruby-info-text-list-item-number">{{
                 treeInfo.rubyDailyAmountByTotem || 0
               }}</view>
 						</view>
 						<view class="ruby-info-text-list-item">
-							<view class="ruby-info-text-list-item-text">碎片释放:</view>
+							<view class="ruby-info-text-list-item-text">碎片釋放:</view>
 							<view class="ruby-info-text-list-item-number">{{
                 treeInfo.rubyDailyAmountByDebris || 0
               }}</view>
 						</view>
 					</view>
 					<view class="popup-button-box" @click="openPopup('rubyConfirmPopup', 'rubyInfoPopup')">
-						领取红宝石
+						領取紅寶石
 					</view>
 				</view>
 			</mg-popup>
 			<mg-popup ref="rubyConfirmPopup" class="ruby-confirm-popup" width="720rpx" height="600rpx">
 				<view class="popup-tips-box">
-					<view class="popup-tips-title">您是否领取采集区的全部红宝石？</view>
+					<view class="popup-tips-title">您是否領取採集區的全部紅寶石？</view>
 					<view class="popup-tips-text">
-						注：领取后红宝石将发放至您的背包请注意查收
+						注：領取後紅寶石將發放至您的背包請注意查收
 					</view>
 				</view>
 				<view class="ruby-info-box">
 					<view class="popup-button-box" @click="httpReceiveCollectionRuby()">
-						确认
+						確認
 					</view>
 				</view>
 			</mg-popup>
@@ -97,25 +97,25 @@
 					<view class="fragment-info-text-list-box">
 						<image class="fragment-info-image" src="@/static/image/worldTree/gemstone-icon.png"></image>
 						<view class="fragment-info-text-list-item">
-							<view class="fragment-info-text-list-item-text">共计碎片:</view>
+							<view class="fragment-info-text-list-item-text">共計碎片:</view>
 							<view class="fragment-info-text-list-item-number">{{
                 debrisData.total || 0
               }}</view>
-							<view class="fragment-info-text-list-item-text right-text">个</view>
+							<view class="fragment-info-text-list-item-text right-text">個</view>
 						</view>
 						<view class="fragment-info-text-list-item">
-							<view class="fragment-info-text-list-item-text">每日释放:</view>
+							<view class="fragment-info-text-list-item-text">每日釋放:</view>
 							<view class="fragment-info-text-list-item-number">{{
                 debrisData.dailyAmount || 0
               }}</view>
-							<view class="fragment-info-text-list-item-text right-text">红宝石</view>
+							<view class="fragment-info-text-list-item-text right-text">紅寶石</view>
 						</view>
 						<view class="fragment-info-text-list-item">
-							<view class="fragment-info-text-list-item-text">剩余释放:</view>
+							<view class="fragment-info-text-list-item-text">剩餘釋放:</view>
 							<view class="fragment-info-text-list-item-number">{{
                 debrisData.leftRubyReserve || 0
               }}</view>
-							<view class="fragment-info-text-list-item-text right-text">红宝石</view>
+							<view class="fragment-info-text-list-item-text right-text">紅寶石</view>
 						</view>
 					</view>
 					<view class="popup-button-box" @click="openPopup('debrisListPopup', 'fragmentInfoPopup')">
@@ -129,8 +129,8 @@
 						<view class="debris-list-item" v-for="(item, index) in showList" :key="index">
 							<image class="debris-list-item-image" :src="item.displayUrl"></image>
 							<view class="debris-list-item-text-list">
-								<view class="debris-list-item-text">每日释放：{{ item.dailyAmount }}</view>
-								<view class="debris-list-item-text">剩余释放：{{ item.leftRubyReserve }}</view>
+								<view class="debris-list-item-text">每日釋放：{{ item.dailyAmount }}</view>
+								<view class="debris-list-item-text">剩餘釋放：{{ item.leftRubyReserve }}</view>
 								<view class="debris-list-item-text">{{
                   formatDate(item.createTime, "MM/DD HH:mm:ss")
                 }}</view>
@@ -152,15 +152,15 @@
 					<view class="content-totem-box">
 						<image class="content-totem-popup-image" :src="totemInfo.displayUrl" mode="aspectFit"></image>
 						<view class="content-totem-popup-text-list">
-							<view class="content-totem-popup-text-item">每日产量：243.23</view>
-							<view class="content-totem-popup-text-item">总产量：22653</view>
-							<view class="content-totem-popup-text-item">已产出：2332.23</view>
-							<view class="content-totem-popup-text-item">剩余产量：23121.27</view>
-							<view class="content-totem-popup-text-item">剩余天数：24</view>
+							<view class="content-totem-popup-text-item">每日產量：243.23</view>
+							<view class="content-totem-popup-text-item">總產量：22653</view>
+							<view class="content-totem-popup-text-item">已產出：2332.23</view>
+							<view class="content-totem-popup-text-item">剩餘產量：23121.27</view>
+							<view class="content-totem-popup-text-item">剩餘天數：24</view>
 						</view>
 					</view>
 					<view class="popup-button-box" @click="openPopup('totemRemovePopup','contentTotemPopup')">
-						卸下图腾
+						卸載圖騰
 					</view>
 				</view>
 			</mg-popup>
@@ -168,13 +168,13 @@
 				<view class="totem-popup-box">
 					<view class="remove-totem-box">
 						<view class="content-totem-popup-text-list">
-							<view class="content-totem-popup-text-item">卸载后，图腾将放置您的背包，</view>
-							<view class="content-totem-popup-text-item">且不再每天产出红宝石，</view>
-							<view class="content-totem-popup-text-item">您是否确认？</view>
+							<view class="content-totem-popup-text-item">卸載後，圖騰將放置您的背包，</view>
+							<view class="content-totem-popup-text-item">且不再每天產出紅寶石，</view>
+							<view class="content-totem-popup-text-item">您是否確認？</view>
 						</view>
 					</view>
 					<view class="popup-button-box" @click="onRemoveTotem()">
-						确认
+						確認
 					</view>
 				</view>
 			</mg-popup>
@@ -183,12 +183,12 @@
 					<image class="airdrop-gift-image" src="/static/image/worldTree/kongtou-icon.png" mode="aspectFit"></image>
 					<view class="airdrop-gift-box">
 						<view class="content-totem-popup-text-list">
-							<view class="content-totem-popup-text-item">测试期，世界树为您准备了小礼物</view>
-							<view class="content-totem-popup-text-item">点击领取按钮，获得10个红宝石！</view>
+							<view class="content-totem-popup-text-item">測試期，世界樹為您準備了小禮物</view>
+							<view class="content-totem-popup-text-item">點擊領取按鈕，獲得10個紅寶石！</view>
 						</view>
 					</view>
 					<view class="popup-button-box" @click="onReceiveAirdropGift">
-						领取
+						領取
 					</view>
 				</view>
 			</mg-popup>
@@ -237,7 +237,7 @@
 			onReceiveAirdropGift(){
 				receiveAirdropGift().then(res=>{
 					uni.showToast({
-						title:"领取成功",
+						title:"領取成功",
 						icon:"none"
 					})
 				}).catch(err=>{
@@ -305,7 +305,7 @@
 			onRemoveTotem() {
 				unequipTotem().then(res => {
 					uni.showToast({
-						title: "卸载成功!",
+						title: "卸載成功!",
 						icon: "none",
 					});
 				}).catch(err => {
@@ -319,11 +319,11 @@
 				})
 			},
 			httpReceiveCollectionRuby() {
-				//领取红宝石
+				//領取紅寶石
 				receiveCollectionRuby()
 					.then((res) => {
 						uni.showToast({
-							title: "领取成功!",
+							title: "領取成功!",
 							icon: "none",
 						});
 					})

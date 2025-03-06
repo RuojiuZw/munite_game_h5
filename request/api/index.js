@@ -227,3 +227,82 @@ export const getGameQuadPickHome = (params) => {
 		data: params,
 	})
 }
+
+/**
+ * 进入房间
+ * @param {*} params 
+ * @returns 
+ */
+export const enterRoom = (params) => {
+	return request({
+		url: "/app-api/core/quad-pick/enter-room",
+		method: 'put',
+		data: params,
+	})
+}
+
+
+/**
+ * 房间详情
+ * @param {*} params 
+ * @returns 
+ */
+export const roomInfo = (params) => {
+	return request({
+		url: "/app-api/core/quad-pick/room-info",
+		method: 'get',
+		data: params,
+	})
+}
+
+/**
+ * 退出房间
+ * @param {*} params 
+ * @returns 
+ */
+export const exitRoom = (params) => {
+	return request({
+		url: "/app-api/core/quad-pick/exit-room",
+		method: 'put',
+		data: params,
+	})
+}
+
+
+/**
+ * 选择数字
+ * @param {*} params 
+ * @returns 
+ */
+export const betNumber = (params) => {
+	return request({
+		url: "/app-api/core/quad-pick/bet-number",
+		method: 'post',
+		data: params,
+	})
+}
+
+/**
+ * 获取比赛结果
+ * @param {*} params 
+ * @returns 
+ */
+export const gameResult = (params) => {
+	return request({
+		url: "/app-api/core/quad-pick/game-result",
+		method: 'get',
+		data: params,
+	})
+}
+/**
+ * 游戏定时上报心跳
+ * @param {*} params 
+ * @returns 
+ */
+export const breathe = (params) => {
+	return request({
+		url: "/app-api/core/quad-pick/breathe",
+		method: 'get',
+		data: params,
+	})
+}

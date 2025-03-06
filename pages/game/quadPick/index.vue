@@ -14,14 +14,62 @@
 				<view class="text">人</view>
 			</view>
 			<view class="game-top-box-game-rule" @click="openPopup('gameRulePopup')">
-				<image class="game-top-box-game-rule-image" src="/static/image/game/quad-pick/book.png" mode="aspectFit"></image>
+				<image class="game-top-box-game-rule-image" src="/static/image/game/quad-pick/book.png"
+					mode="aspectFit"></image>
 				<view class="game-top-box-game-rule-text">游戏规则</view>
 			</view>
 		</view>
+		<view class="game-content-box">
+			<view class="game-content-item" v-for="(item,index) in roomList" :key="index" @click="onClickItem(item)">
+				<image class="game-content-item-image" :src="item.displayUrl" mode="aspectFit">
+				</image>
+				<view class="game-content-item-text">{{item.memberCount}}</view>
+			</view>
+		</view>
 
-		<mg-popup ref="gameRulePopup" width="700rpx" height="630rpx">
+		<mg-popup ref="gameRulePopup" width="700rpx" height="600rpx">
 			<view class="game-rule-popup-box">
-				
+				<image class="game-rule-popup-image" src="/static/image/game/quad-pick/game-icon.png" mode="aspectFit">
+				</image>
+				<view class="game-rule-popup-text-list">
+					<view class="game-rule-popup-text-item">休闲四选一是一款</view>
+					<view class="game-rule-popup-text-item">三赢一输（胜率75%）的竞猜小游戏</view>
+					<view class="game-rule-popup-text-item margin-top">会员进入一个自己喜欢的红宝石场次，</view>
+					<view class="game-rule-popup-text-item">然后在自己喜欢的数字（1~4）上</view>
+					<view class="game-rule-popup-text-item">质押红宝石（根据场级别决定），</view>
+					<view class="game-rule-popup-text-item">当游戏开出结果，</view>
+					<view class="game-rule-popup-text-item">选择了没有中雷的数字的会员，</view>
+					<view class="game-rule-popup-text-item">赢得比赛。</view>
+				</view>
+			</view>
+		</mg-popup>
+
+		<mg-popup ref="gameNotEnoughPopup" width="700rpx" height="600rpx">
+			<view class="game-rule-popup-box">
+				<view class="game-rule-popup-text-list">
+					<view class="game-rule-popup-text-item">很抱歉，您的背包里没有足够的红宝石</view>
+					<view class="game-rule-popup-text-item">来支撑这一次精彩游戏。</view>
+					<view class="game-rule-popup-text-item margin-top">红宝石获得方式：</view>
+					<view class="game-rule-popup-text-item">1、在商城里用MGT兑换；</view>
+					<view class="game-rule-popup-text-item">2、世界树里图腾产生；</view>
+					<view class="game-rule-popup-text-item">3、网游戏赢得竞技比赛；</view>
+					<view class="game-rule-popup-text-item">4、发展会员获得；</view>
+					<view class="game-rule-popup-text-item">5、世界树领取空投；</view>
+				</view>
+			</view>
+		</mg-popup>
+
+		<mg-popup ref="gameNoOpenPopup" width="700rpx" height="500rpx">
+			<view class="game-rule-popup-box">
+				<image class="game-rule-popup-image" src="/static/image/game/quad-pick/game-icon.png" mode="aspectFit">
+				</image>
+				<view class="game-rule-popup-text-list">
+					<view class="game-rule-popup-text-item">很抱歉，您所选择的场次</view>
+					<view class="game-rule-popup-text-item">暂时还未对外开放，</view>
+					<view class="game-rule-popup-text-item">你可以去选择其他场次进行游戏。</view>
+					<view class="game-rule-popup-text-item margin-top">MG友情提示：</view>
+					<view class="game-rule-popup-text-item">小小博弈怡情，切勿上头哦。</view>
+				</view>
 			</view>
 		</mg-popup>
 		<tab-bar></tab-bar>
@@ -33,16 +81,19 @@
 		mapState
 	} from "vuex"; //引入mapState
 	import {
+		enterRoom,
 		getGameQuadPickHome
 	} from "../../../request/api";
 	export default {
 		data() {
 			return {
-				homePageData: {}
+				homePageData: {},
+				roomList: [],
 			};
 		},
 		computed: {
 			...mapState({
+				userInfo: (state) => state.web3.userInfo,
 				language: (state) => state.language,
 			}),
 		},
@@ -55,17 +106,12 @@
 			onInitData() {
 				getGameQuadPickHome().then(res => {
 					this.homePageData = res.data
+					this.roomList = res.data.roomList
 				}).catch(err => {
-					this.homePageData = {
-						"roomList": [{
-							"id": 1024,
-							"displayUrl": "http://",
-							"rubyCost": 1,
-							"inactive": false,
-							"memberCount": 255
-						}],
-						"quadPickCount": 255
-					}
+					uni.showToast({
+						title: "获取首页数据失败!",
+						icon: "none"
+					})
 				})
 			},
 			openGame(type) {
@@ -94,6 +140,29 @@
 				if (this.$refs[name]) {
 					this.$refs[name].close();
 				}
+			},
+			onClickItem(item) {
+				if (item.inactive) {
+					this.openPopup("gameNoOpenPopup")
+					return
+				}
+				enterRoom({
+					id: item.id
+				}).then(res => {
+					console.log(res)
+					uni.navigateTo({
+						url: "/pages/game/quadPick/game?id="+item.id
+					})
+				}).catch(err => {
+					if (err.data.code == 2001000004) {
+						this.openPopup("gameNotEnoughPopup")
+						return 
+					}
+					uni.showToast({
+						title:err.data.msg,
+						icon:"none"
+					})
+				})
 			},
 			showNoOpenPopup() {
 				this.$refs.noOpenPopup.open()
@@ -202,7 +271,8 @@
 		width: 207rpx;
 		height: 39rpx;
 	}
-	.game-top-box-game-rule{
+
+	.game-top-box-game-rule {
 		position: absolute;
 		display: flex;
 		flex-direction: column;
@@ -211,11 +281,62 @@
 		top: 154rpx;
 		gap: 16rpx;
 	}
-	.game-top-box-game-rule-image{
+
+	.game-top-box-game-rule-image {
 		width: 130rpx;
 		height: 97rpx;
 	}
-	.game-top-box-game-rule-text{
+
+	.game-top-box-game-rule-text {
 		font-size: 28rpx;
+	}
+
+	.game-content-box {
+		margin-top: 52rpx;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		column-gap: 105rpx;
+		row-gap: 38rpx;
+	}
+
+	.game-content-item {
+		position: relative;
+	}
+
+	.game-content-item-text {
+		position: absolute;
+		text-align: center;
+		width: 100%;
+		color: #fff;
+		font-size: 28rpx;
+		bottom: 15rpx;
+	}
+
+	.game-content-item-image {
+		width: 132rpx;
+		height: 200rpx;
+	}
+
+	.game-rule-popup-box {
+		margin-left: 55rpx;
+		margin-top: 38rpx;
+		display: flex;
+		gap: 18rpx;
+	}
+
+	.game-rule-popup-image {
+		width: 110rpx;
+		height: 116rpx;
+	}
+
+	.game-rule-popup-text-list {
+		font-size: 28rpx;
+		line-height: 1.5;
+	}
+
+	.margin-top {
+		margin-top: 40rpx;
 	}
 </style>

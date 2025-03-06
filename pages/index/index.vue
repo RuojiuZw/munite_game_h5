@@ -3,12 +3,12 @@
 		<top-login-bar></top-login-bar>
 		<view class="game-top-box-bg">
 			<view class="game-top-title-box">
-				<view>Munite Gme,</view>
+				<view>Munite Game,</view>
 				<view>There are no losers</view>
 			</view>
 			<image class="game-top-box-bg-icon" src="@/static/image/game/game-top-icon.png" />
 			<view class="game-top-box-number-people-box">
-				<view class="text">当前</view>
+				<view class="text">當前</view>
 				<view class="number">{{homePageData.totalCount}}</view>
 				<view class="text">人</view>
 			</view>
@@ -17,21 +17,21 @@
 			<view class="game-box-item" @click="openGame(1)">
 				<view class="game-now-people-text">{{homePageData.quadPickCount}}人</view>
 				<image class="game-box-item-bg-icon icon-1" src="@/static/image/game/game-icon-1.png" />
-				<view class="game-title">休闲四选一</view>
+				<view class="game-title">休閒四選一</view>
 			</view>
 			<view class="game-box-item" @click="openGame(2)">
 				<view class="game-now-people-text">{{homePageData.tigerClashCount}}人</view>
 				<image class="game-box-item-bg-icon icon-2" src="@/static/image/game/game-icon-2.png" />
-				<view class="game-title">虎王争雄</view>
+				<view class="game-title">虎王爭雄</view>
 			</view>
 		</view>
 		<mg-popup ref="noOpenPopup" width="700rpx" height="630rpx">
 			<view class="no-open-box">
 				<image class="no-open-big-image" src="@/static/image/game/game-icon-2.png"></image>
 				<view class="no-open-text-list">
-					<view>目前是MG试运营阶段，</view>
-					<view>虎王争雄暂未开放，</view>
-					<view>敬请期待！</view>
+					<view>目前是MG試運營階段，</view>
+					<view>虎王爭雄暫未開放，</view>
+					<view>敬請期待！</view>
 				</view>
 			</view>
 		</mg-popup>
@@ -69,11 +69,6 @@
 					this.homePageData = res.data
 				}).catch(err => {
 					console.log("获取失败 使用测试数据")
-					this.homePageData = {
-						"quadPickCount": 255,
-						"tigerClashCount": 255,
-						"totalCount": 255
-					}
 				})
 			},
 			openGame(type) {

@@ -76,6 +76,7 @@
 		height: 100%;
 		font-size: 28rpx;
 		font-family: PingFang SC;
+		padding-bottom: 280rpx;
 	}
 
 	.fix-pc-padding {

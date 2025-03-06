@@ -43,6 +43,14 @@
 				"navigationStyle": "custom",
 				"onReachBottomDistance": 200
 			}
+		},
+		{
+			"path": "pages/game/quadPick/game",
+			"style": {
+				"navigationBarTitleText": "休闲四选一",
+				"navigationStyle": "custom",
+				"onReachBottomDistance": 200
+			}
 		}
 	],
 	"globalStyle": {

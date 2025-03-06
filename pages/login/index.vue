@@ -6,25 +6,25 @@
         <view class="login-register-title">About MG</view>
         <view class="login-msg-list">
           <view class="login-msg-item">
-            MG是一款基于区块链技术的公平博弈小游戏平台。
+            MG是一款基於區塊鏈技術的公平博弈小遊戲平台。
           </view>
           <br />
           <view class="login-msg-item">
-            会员通过简单的竞技小游戏，来与其他 所有会员一起公平公正的博弈，
-            并在获胜后，赢得回报。
+            會員通過簡單的競技小遊戲，來與其他所有會員一起公平公正的博弈，
+            並在獲勝後，贏得回報。
           </view>
         </view>
       </view>
       <view class="button-list">
-        <view class="button-item" @click="handleUserAuth()">钱包登陆</view>
-        <view class="button-item" @click="toRegister()">账号注册</view>
+        <view class="button-item" @click="handleUserAuth()">錢包登陸</view>
+        <view class="button-item" @click="toRegister()">賬號註冊</view>
       </view>
     </view>
     <view class="login-register-box" v-if="pageType === 'register'">
       <view class="login-register-content-box">
-        <view class="login-register-title">账号注册</view>
+        <view class="login-register-title">賬號註冊</view>
         <view class="login-register-form-box user-name">
-          <view class="login-register-form-item-label">用户名：</view>
+          <view class="login-register-form-item-label">用戶名：</view>
           <input
             type="text"
             v-model="userName"
@@ -32,7 +32,7 @@
           />
         </view>
         <view class="login-register-form-box">
-          <view class="login-register-form-item-label">邀请码：</view>
+          <view class="login-register-form-item-label">邀請碼：</view>
           <input
             type="text"
             v-model="inviteCode"
@@ -46,21 +46,21 @@
     </view>
     <view class="login-register-box" v-if="pageType === 'bind'">
       <view class="login-register-content-box">
-        <view class="login-register-title">账号注册</view>
+        <view class="login-register-title">賬號註冊</view>
 
         <view class="login-msg-list">
           <view class="login-msg-item">
-            为确保您的账户在未来能够安全流畅的
-            使用，我们要为您的账户绑定一个唯一 的指定钱包。
+            為確保您的賬戶在未來能夠安全流暢的
+            使用，我們要為您的賬戶綁定一個唯一的指定錢包。
           </view>
           <br />
           <view class="login-msg-item">
-            钱包绑定之后，数字钱包将成为您登录 系统的唯一方式。
+            錢包綁定之後，數字錢包將成為您登錄系統的唯一方式。
           </view>
         </view>
       </view>
       <view class="button-list">
-        <view class="button-item" @click="handleBindWallet()">绑定钱包</view>
+        <view class="button-item" @click="handleBindWallet()">綁定錢包</view>
       </view>
     </view>
     <tab-bar></tab-bar>
@@ -104,9 +104,9 @@ export default {
         }
         await this.authWalletLogin();
       } catch (error) {
-        console.error("登陆失败:", error);
+        console.error("登陸失敗:", error);
         uni.showToast({
-          title: "登陆失败",
+          title: "登陸失敗",
           icon: "none",
         });
       }
@@ -127,9 +127,9 @@ export default {
         // 调用绑定方法
         await this.bindWallet();
       } catch (error) {
-        console.error("绑定钱包失败:", error);
+        console.error("綁定錢包失敗:", error);
         uni.showToast({
-          title: error.message || "绑定钱包失败",
+          title: error.message || "綁定錢包失敗",
           icon: "none",
         });
       }
@@ -143,7 +143,7 @@ export default {
       if (this.userName == "" || this.userName.trim() == "") {
         uni.showToast({
           icon: "none",
-          title: "请输入用户名!",
+          title: "請輸入用戶名!",
         });
         return;
       }

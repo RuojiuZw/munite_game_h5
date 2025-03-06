@@ -166,7 +166,7 @@
         "uniStatistics" : {
             "enable" : false
         },
-        "title" : "体感浏览器",
+        "title" : "MG",
         "optimization" : {
             "treeShaking" : {
                 "enable" : true

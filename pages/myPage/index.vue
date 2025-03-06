@@ -9,15 +9,15 @@
 				</view>
 				<view class="my-page-tab-item" @click="onClickTab(1)">
 					<image class="my-page-icon icon-td" src="@/static/image/myPage/td.png"></image>
-					<view class="my-page-title"> 团队 </view>
+					<view class="my-page-title"> 團隊 </view>
 				</view>
 				<view class="my-page-tab-item" @click="onClickTab(2)">
 					<image class="my-page-icon icon-dh" src="@/static/image/myPage/dh.png"></image>
-					<view class="my-page-title"> 兑换 </view>
+					<view class="my-page-title"> 兌換 </view>
 				</view>
 				<view class="my-page-tab-item" @click="onClickTab(3)">
 					<image class="my-page-icon icon-zh" src="@/static/image/myPage/zh.png"></image>
-					<view class="my-page-title"> 账户 </view>
+					<view class="my-page-title"> 賬戶 </view>
 				</view>
 			</view>
 		</view>
@@ -55,7 +55,7 @@
 				<view class="my-team-top-list">
 					<view class="my-team-top-item">
 						<view class="my-team-top-label">管理分数</view>
-						<view class="my-team-top-text">{{ teamInfo.point || 0 }}</view>
+						<view class="my-team-top-text">{{ teamInfo.experience || 0 }}</view>
 					</view>
 					<view class="my-team-top-item">
 						<view class="my-team-top-label">账号级别</view>
@@ -85,6 +85,9 @@
 						<view class="team-table-list-item item-3">会员总数</view>
 						<view class="team-table-list-item item-4">昨日活跃</view>
 					</view>
+					<view class="team-table-list no-data-text" v-if="teamInfo.directlyMemberList.length ==0">
+						暂无数据
+					</view>
 					<view class="team-table-list" v-for="(item, index) in teamInfo.directlyMemberList" :key="index"
 						:class="index % 2 == 0 ? '' : 'color-bg'">
 						<view class="team-table-list-item item-1">{{ item.nickname }}</view>
@@ -94,7 +97,7 @@
 						<view class="team-table-list-item item-3">{{
               item.subMemberCount
             }}</view>
-						<view class="team-table-list-item item-4">312</view>
+						<view class="team-table-list-item item-4">{{ item.yesterdayActiveCount }}</view>
 					</view>
 				</view>
 			</view>
@@ -108,21 +111,21 @@
 			<view class="my-userinfo-top-box">
 				<view class="user-data-list-box">
 					<view class="user-data-item-box">
-						<view class="user-data-item-label">游戏局数</view>
-						<view class="user-data-item-text">123</view>
+						<view class="user-data-item-label">遊戲局數</view>
+						<view class="user-data-item-text">{{userInfo.totalGames}}</view>
 					</view>
 					<view class="user-data-item-box">
-						<view class="user-data-item-label">胜利局数</view>
-						<view class="user-data-item-text">123</view>
+						<view class="user-data-item-label">勝利局數</view>
+						<view class="user-data-item-text">{{userInfo.wins}}</view>
 					</view>
 				</view>
 				<view class="user-data-list-box">
 					<view class="user-data-item-box">
-						<view class="user-data-item-label">失败局数</view>
-						<view class="user-data-item-text">213</view>
+						<view class="user-data-item-label">失敗局數</view>
+						<view class="user-data-item-text">{{userInfo.losses}}</view>
 					</view>
 					<view class="user-data-item-box">
-						<view class="user-data-item-label">账号级别</view>
+						<view class="user-data-item-label">賬號級別</view>
 						<view class="user-data-item-text">{{userInfo.level && userInfo.level.name}}</view>
 					</view>
 				</view>
@@ -130,7 +133,7 @@
 			<view class="my-userinfo-copy-box">
 				<view class="my-userinfo-copy-item">
 					<view class="my-userinfo-copy-item-text">
-						<view> 我的邀请码: </view>
+						<view> 我的邀請碼: </view>
 						<image @click="copyText(userInfo.inviteCode)" class="my-userinfo-copy-image"
 							src="/static/image/com/copy-icon.png"></image>
 					</view>
@@ -138,7 +141,7 @@
 				</view>
 				<view class="my-userinfo-copy-item">
 					<view class="my-userinfo-copy-item-text">
-						<view> 我的邀请链接: </view>
+						<view> 我的邀請鏈接: </view>
 						<image @click="copyText(userInfo.inviteUrl)" class="my-userinfo-copy-image"
 							src="/static/image/com/copy-icon.png"></image>
 					</view>
@@ -146,19 +149,19 @@
 				</view>
 			</view>
 			<view class="button-box">
-				<view class="logout-button" @click="onLogout">退出登录</view>
+				<view class="logout-button" @click="onLogout">退出登錄</view>
 			</view>
 		</view>
 		<view class="popup-list">
 			<mg-popup ref="bagRubyPopup" class="bag-ruby-popup" width="700rpx" height="630rpx">
 				<view class="bag-ruby-box">
-					<view class="bag-top-title">您当前拥有</view>
+					<view class="bag-top-title">您當前擁有</view>
 					<image class="bag-ruby-image" mode="aspectFit" :src="openItem.displayUrl"></image>
 					<view class="bag-ruby-number-text">{{openItem.stackCount}}</view>
-					<view class="bag-ruby-bili-text">兑换比例：12.5筹码=1 MG Token</view>
+					<view class="bag-ruby-bili-text">兌換比例：12.5籌碼=1 MG Token</view>
 					<view class="bag-ruby-text-list">
-						<view>MGT发行后，即刻开放红宝石兑换，</view>
-						<view>敬请期待！</view>
+						<view>MGT發行後，即刻開放紅寶石兌換，</view>
+						<view>敬請期待！</view>
 					</view>
 				</view>
 			</mg-popup>
@@ -168,14 +171,13 @@
 						<image class="bag-totem-top-image" mode="aspectFit" :src="openItem.displayUrl"></image>
 						<view class="bag-totem-top-text-list">
 							<view class="bag-totem-top-text-item big">利古里古</view>
-							<view class="bag-totem-top-text-item">每日生产：{{6654.23}}</view>
-							<view class="bag-totem-top-text-item">生产周期：{{openItem.maxUsageCount}}天</view>
-							<view class="bag-totem-top-text-item">总生产量：{{openItem.maxRubyReserve}}</view>
-							<!-- <view class="bag-totem-top-text-item">已用天数：{{openItem.maxUsageCount}}天</view> -->
-							<view class="bag-totem-top-text-item">已用天数：0天</view>
-							<view class="bag-totem-top-text-item">剩余天数：{{openItem.leftUsageCount}}天</view>
-							<view class="bag-totem-top-text-item">剩余产量：{{openItem.leftRubyReserve}}</view>
-							<view class="bag-totem-top-text-item">购买价格：{{openItem.buyPrice}}U</view>
+							<view class="bag-totem-top-text-item">每日生產：{{0}}</view>
+							<view class="bag-totem-top-text-item">生產週期：{{openItem.maxUsageCount}}天</view>
+							<view class="bag-totem-top-text-item">總生產量：{{openItem.maxRubyReserve}}</view>
+							<view class="bag-totem-top-text-item">已用天數：{{openItem.usedCount}}天</view>
+							<view class="bag-totem-top-text-item">剩餘天數：{{openItem.leftUsageCount}}天</view>
+							<view class="bag-totem-top-text-item">剩餘產量：{{openItem.leftRubyReserve}}</view>
+							<view class="bag-totem-top-text-item">購買價格：{{openItem.buyPrice}}U</view>
 						</view>
 					</div>
 					<view class="button-box totem-popup">
@@ -188,12 +190,12 @@
 					<div class="bag-totem-top-box bag-totem-error-top-box">
 						<image class="bag-totem-top-image" mode="aspectFit" :src="openItem.displayUrl"></image>
 						<view class="bag-totem-top-text-list">
-							<view class="bag-totem-top-text-item">您的世界树里已经有其他图腾存在，</view>
-							<view class="bag-totem-top-text-item">请先去世界树卸载图腾再行安装。</view>
+							<view class="bag-totem-top-text-item">您的世界樹裡已經有其他圖騰存在，</view>
+							<view class="bag-totem-top-text-item">請先去世界樹卸載圖騰再行安裝。</view>
 						</view>
 					</div>
 					<view class="button-box totem-popup">
-						<view class="popup-button" @click="closePopup('bagTotemErrorPopup')">确认</view>
+						<view class="popup-button" @click="closePopup('bagTotemErrorPopup')">確認</view>
 					</view>
 				</view>
 			</mg-popup>
@@ -273,7 +275,7 @@
 					id: this.openItem.id
 				}).then(res => {
 					uni.showToast({
-						title: "安装成功!",
+						title: "安裝成功!",
 						icon: "none"
 					})
 					this.closePopup("bagTotemPopup")
@@ -319,14 +321,14 @@
 					data: e,
 					success: () => {
 						uni.showToast({
-							title: "复制成功",
+							title: "複製成功",
 							icon: "none",
 						});
 					},
 					fail: (res) => {
 						console.log(res);
 						uni.showToast({
-							title: "复制失败",
+							title: "複製失敗",
 							icon: "none",
 						});
 					},
@@ -339,7 +341,7 @@
 					this.exchangeCode.trim() == ""
 				) {
 					uni.showToast({
-						title: "请先输入兑换码!",
+						title: "請先輸入兌換碼!",
 						icon: "none",
 					});
 					return;
@@ -349,7 +351,7 @@
 					})
 					.then((res) => {
 						uni.showToast({
-							title: "兑换成功",
+							title: "兌換成功",
 							icon: "none",
 						});
 					})
@@ -525,6 +527,10 @@
 		align-items: center;
 		height: 80rpx;
 		gap: 30rpx;
+	}
+	.no-data-text{
+		text-align: center;
+		justify-content: center;
 	}
 
 	.team-table-list.color-bg {

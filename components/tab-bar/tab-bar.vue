@@ -6,11 +6,11 @@
 		</view>
 		<view class="content-big-button" @click="onToTab('/pages/index/index')">
 			<img class="big-icon" src="@/static/image/tabbar/icon_content.png" />
-			<view class="menu-text">游戏场</view>
+			<view class="menu-text">遊戲場</view>
 		</view>
 		<view class="right-button" @click="onToTab('/pages/worldTree/index')">
 			<img class="some-button-icon" src="@/static/image/tabbar/icon_right.png" />
-			<view class="menu-text">世界树</view>
+			<view class="menu-text">世界樹</view>
 		</view>
 	</view>
 </template>
@@ -44,12 +44,13 @@
 		justify-content: center;
 		gap: 40rpx;
 		position: fixed;
+		z-index: 9999999;
 		bottom: 0;
 		left: 0;
 		width: 100%;
 		height: 184rpx;
 		background: url("@/static/image/tabbar/tab-bar-bg.png") no-repeat;
-		background-size: 100%;
+		background-size: 100% 100%;
 	}
 
 	.left-button,
@@ -76,5 +77,11 @@
 		margin-top: -20rpx;
 		color: #fff;
 		align-items: center;
+	}
+	
+	@media screen and (max-height: 1000rpx){
+	    .b-tab-bar-box{
+	      display: none;
+	    }
 	}
 </style>

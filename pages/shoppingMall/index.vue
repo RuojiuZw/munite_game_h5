@@ -17,7 +17,7 @@
 						<view class="shop-item-title-big">=</view>
 					</view>
 					<view class="shop-item-box" @click="openPopup('buyRubyPopup')">
-						<view class="shop-item-title">红宝石</view>
+						<view class="shop-item-title">紅寶石</view>
 						<image class="shop-icon-ruby" src="@/static/image/shoppingMall/ruby.png"></image>
 						<view class="shop-item-number">X10</view>
 					</view>
@@ -26,7 +26,7 @@
 					src="@/static/image/shoppingMall/now_buy.png"></image>
 			</view>
 			<view class="shopping-list-item tuteng">
-				<view class="shop-tab-bar-box">MG图腾</view>
+				<view class="shop-tab-bar-box">MG圖騰</view>
 				<view class="shop-tuteng-list">
 					<view class="shop-tuteng-item" v-for="(item, index) in totemList" :key="index"
 						@click="openPopup('buyTutengPopup',item)">
@@ -37,7 +37,7 @@
 				</view>
 			</view>
 			<view class="shopping-list-item jjdj">
-				<view class="shop-tab-bar-box">竞技道具</view>
+				<view class="shop-tab-bar-box">競技道具</view>
 				<view class="shop-tuteng-list">
 					<view class="shop-tuteng-item" v-for="(item, index) in propList" :key="index"
 						@click="openPopup('jjdjPopup')">
@@ -57,10 +57,10 @@
 				</view>
 				<view class="jjdj-popup-text-box">
 					<view class="jjdj-popup-text">
-						<view class="jjdj-popup-text-item">竞技道具的自由购买暂未开放，</view>
-						<view class="jjdj-popup-text-item">在测试期，会员进行游戏时，</view>
-						<view class="jjdj-popup-text-item color-blue">可以免费使用道具。</view>
-						<view class="jjdj-popup-text-item">敬请期待！</view>
+						<view class="jjdj-popup-text-item">競技道具的自由購買暫未開放，</view>
+						<view class="jjdj-popup-text-item">在測試期，會員進行遊戲時，</view>
+						<view class="jjdj-popup-text-item color-blue">可以免費使用道具。</view>
+						<view class="jjdj-popup-text-item">敬請期待！</view>
 					</view>
 				</view>
 			</view>
@@ -69,13 +69,13 @@
 			<view class="buy-ruby-popup-box">
 				<image class="buy-ruby-popup-icon" src="@/static/image/shoppingMall/ruby.png"></image>
 				<view class="popup-text-list">
-					<view class="popup-text-item color-blue ruby-title">1 MGT 购买 10 红宝石</view>
-					<view class="popup-text-item">红宝石的自由购买暂未开放， </view>
-					<view class="popup-text-item">会员可以通过以下方式获得：</view>
-					<view class="popup-text-item">1、成为节点；</view>
-					<view class="popup-text-item">2、向节点申请测试期试玩包；</view>
-					<view class="popup-text-item">3、每日到世界数打卡；</view>
-					<view class="popup-text-item ruby-jqqd">敬请期待！</view>
+					<view class="popup-text-item color-blue ruby-title">1 MGT 購買 10 紅寶石</view>
+					<view class="popup-text-item">紅寶石的自由購買暫未開放， </view>
+					<view class="popup-text-item">會員可以通過以下方式獲得：</view>
+					<view class="popup-text-item">1、成為節點；</view>
+					<view class="popup-text-item">2、向節點申請測試期試玩包；</view>
+					<view class="popup-text-item">3、每日到世界樹打卡；</view>
+					<view class="popup-text-item ruby-jqqd">敬請期待！</view>
 				</view>
 			</view>
 		</mg-popup>
@@ -83,13 +83,13 @@
 			<view class="buy-tuteng-popup-box">
 				<image class="tuteng-icon" mode="aspectFit" :src="curTuTengInfo.displayUrl"></image>
 				<view class="popup-text-list">
-					<view class="popup-text-item  tuteng-popup-title first-tuteng-popup-text">图腾购买价格为：</view>
-					<view class="popup-text-item  tuteng-popup-title">价格系数 x 实时MGT价格</view>
+					<view class="popup-text-item  tuteng-popup-title first-tuteng-popup-text">圖騰購買價格為：</view>
+					<view class="popup-text-item  tuteng-popup-title">價格係數 x 實時MGT價格</view>
 
-					<view class="popup-text-item first-tuteng-popup-text">图腾的自由购买暂未开放，</view>
-					<view class="popup-text-item">会员可以通过以下方式获得：</view>
-					<view class="popup-text-item">成为节点得到特殊图腾；</view>
-					<view class="popup-text-item ruby-jqqd">敬请期待！</view>
+					<view class="popup-text-item first-tuteng-popup-text">圖騰的自由購買暫未開放，</view>
+					<view class="popup-text-item">會員可以通過以下方式獲得：</view>
+					<view class="popup-text-item">成為節點得到特殊圖騰；</view>
+					<view class="popup-text-item ruby-jqqd">敬請期待！</view>
 				</view>
 			</view>
 		</mg-popup>
@@ -258,6 +258,7 @@
 		display: flex;
 		align-items: center;
 		overflow-x: auto;
+		overflow-y: hidden;
 		white-space: nowrap;
 		padding: 0 40rpx;
 		scrollbar-width: none;
@@ -388,9 +389,11 @@
 	.ruby-jqqd {
 		margin-top: 32rpx;
 	}
-	.first-tuteng-popup-text{
+
+	.first-tuteng-popup-text {
 		margin-top: 32rpx;
 	}
+
 	.tuteng-popup-title {
 		font-size: 35rpx;
 		color: #00eaff;
