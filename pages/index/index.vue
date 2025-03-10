@@ -68,13 +68,13 @@
 					console.log(res.data)
 					this.homePageData = res.data
 				}).catch(err => {
-					console.log("获取失败 使用测试数据")
+					console.log("獲取失敗 使用測試數據")
 				})
 			},
 			openGame(type) {
 				switch (type) {
 					case 1:
-						uni.navigateTo({
+						uni.reLaunch({
 							url: "/pages/game/quadPick/index"
 						})
 						break;

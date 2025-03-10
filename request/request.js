@@ -52,7 +52,7 @@ export const request = async (params) => {
 							console.error("错误码:", data.code, "错误原因", data.msg);
 							switch (data.code) {
 								case 401:
-									uni.navigateTo({
+									uni.reLaunch({
 										url: "/pages/login/index",
 									});
 									break;

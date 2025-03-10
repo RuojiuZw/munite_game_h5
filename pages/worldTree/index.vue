@@ -20,7 +20,7 @@
 					{{totemInfo.leftUsageCount}}/{{totemInfo.maxUsageCount}}
 				</view>
 			</view>
-			<view class="content-tree-box" v-else  @click="openPopup('airdropGiftPopup')">
+			<view class="content-tree-box" v-else @click="toMyPage()">
 				<image class="content-tree-image" mode="aspectFit" src="@/static/image/worldTree/world-tree-add.png" />
 			</view>
 
@@ -34,7 +34,8 @@
 			</view>
 		</view>
 		<view class="world-tree-bottom-box">
-			<image class="bottom-tree-image" src="@/static/image/worldTree/world-tree-icon.png" />
+			<image class="bottom-tree-image" @click="openPopup('airdropGiftPopup')"
+				src="@/static/image/worldTree/world-tree-icon.png" />
 			<view class="bottom-tree-text-box">
 				<view class="bottom-tree-text">
 					世界樹是一組丟棄權限的智能合約，在將來
@@ -126,6 +127,9 @@
 			<mg-popup ref="debrisListPopup" class="debris-list-popup" width="720rpx" height="630rpx">
 				<view class="fragment-info-box">
 					<view class="debris-list-box">
+						<view class="debris-null-text" v-if="showList.length==0">
+							暂无数据
+						</view>
 						<view class="debris-list-item" v-for="(item, index) in showList" :key="index">
 							<image class="debris-list-item-image" :src="item.displayUrl"></image>
 							<view class="debris-list-item-text-list">
@@ -137,7 +141,7 @@
 							</view>
 						</view>
 					</view>
-					<view class="debris-list-popup-page-box">
+					<view class="debris-list-popup-page-box" v-if="showList.length>0">
 						<image @click="onChangePageUp()" class="debris-list-popup-page-image"
 							src="@/static/image/com/arrow_left.png"></image>
 						<view class="debris-list-popup-page-size">{{ page }}/{{maxPage}}</view>
@@ -152,11 +156,11 @@
 					<view class="content-totem-box">
 						<image class="content-totem-popup-image" :src="totemInfo.displayUrl" mode="aspectFit"></image>
 						<view class="content-totem-popup-text-list">
-							<view class="content-totem-popup-text-item">每日產量：243.23</view>
-							<view class="content-totem-popup-text-item">總產量：22653</view>
-							<view class="content-totem-popup-text-item">已產出：2332.23</view>
-							<view class="content-totem-popup-text-item">剩餘產量：23121.27</view>
-							<view class="content-totem-popup-text-item">剩餘天數：24</view>
+							<view class="content-totem-popup-text-item">每日產量：{{totemInfo.dailyRubyAmount}}</view>
+							<view class="content-totem-popup-text-item">總產量：{{totemInfo.maxRubyReserve}}</view>
+							<view class="content-totem-popup-text-item">已產出：{{totemInfo.producedRubyAmount}}</view>
+							<view class="content-totem-popup-text-item">剩餘產量：{{totemInfo.leftRubyReserve}}</view>
+							<view class="content-totem-popup-text-item">剩餘天數：{{totemInfo.leftUsageCount}}</view>
 						</view>
 					</view>
 					<view class="popup-button-box" @click="openPopup('totemRemovePopup','contentTotemPopup')">
@@ -180,7 +184,8 @@
 			</mg-popup>
 			<mg-popup ref="airdropGiftPopup" class="airdrop-gift-popup" width="720rpx" height="600rpx">
 				<view class="totem-popup-box airdrop-popup-box">
-					<image class="airdrop-gift-image" src="/static/image/worldTree/kongtou-icon.png" mode="aspectFit"></image>
+					<image class="airdrop-gift-image" src="/static/image/worldTree/kongtou-icon.png" mode="aspectFit">
+					</image>
 					<view class="airdrop-gift-box">
 						<view class="content-totem-popup-text-list">
 							<view class="content-totem-popup-text-item">測試期，世界樹為您準備了小禮物</view>
@@ -234,19 +239,19 @@
 		onShow() {},
 		onHide() {},
 		methods: {
-			onReceiveAirdropGift(){
-				receiveAirdropGift().then(res=>{
+			onReceiveAirdropGift() {
+				receiveAirdropGift().then(res => {
 					uni.showToast({
-						title:"領取成功",
-						icon:"none"
+						title: "領取成功",
+						icon: "none"
 					})
-				}).catch(err=>{
+				}).catch(err => {
 					console.log(err)
 					uni.showToast({
-						title:err.data.msg,
-						icon:"none"
+						title: err.data.msg,
+						icon: "none"
 					})
-				}).finally(()=>{
+				}).finally(() => {
 					this.closePopup("airdropGiftPopup")
 				})
 			},
@@ -257,6 +262,11 @@
 					this.showList = this.debrisData.list.slice(0, this.pageSize);
 					this.openPopup("fragmentInfoPopup");
 				});
+			},
+			toMyPage(){
+				uni.reLaunch({
+					url:"/pages/myPage/index"
+				})
 			},
 			onPageChange() {
 				this.showList = this.debrisData.list.slice(
@@ -313,7 +323,7 @@
 						title: err.data.msg,
 						icon: "none",
 					});
-				}).finally(()=>{
+				}).finally(() => {
 					this.closePopup("totemRemovePopup")
 					this.onInitData()
 				})
@@ -605,6 +615,10 @@
 		/* align-items: center; */
 		/* justify-content: center; */
 	}
+	.debris-null-text{
+		padding: 200rpx 0;
+		font-size: 32rpx;
+	}
 
 	.debris-list-item {
 		margin-top: 40rpx;
@@ -662,7 +676,8 @@
 		align-items: center;
 		gap: 80rpx;
 	}
-	.airdrop-popup-box{
+
+	.airdrop-popup-box {
 		gap: 50rpx;
 	}
 
@@ -694,12 +709,14 @@
 	.content-totem-popup-text-item {
 		line-height: 1.6;
 	}
-	.airdrop-gift-image{
+
+	.airdrop-gift-image {
 		margin-top: 30rpx;
 		width: 240rpx;
 		height: 205rpx;
 	}
-	.airdrop-gift-box{
+
+	.airdrop-gift-box {
 		margin-top: -90rpx;
 	}
 </style>

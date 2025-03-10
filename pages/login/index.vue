@@ -16,7 +16,7 @@
         </view>
       </view>
       <view class="button-list">
-        <view class="button-item" @click="handleUserAuth()">錢包登陸</view>
+        <view class="button-item" @click="handleUserAuth()">錢包登錄</view>
         <view class="button-item" @click="toRegister()">賬號註冊</view>
       </view>
     </view>
@@ -104,9 +104,9 @@ export default {
         }
         await this.authWalletLogin();
       } catch (error) {
-        console.error("登陸失敗:", error);
+        console.error("登錄失敗:", error);
         uni.showToast({
-          title: "登陸失敗",
+          title: "登錄失敗",
           icon: "none",
         });
       }
@@ -176,11 +176,11 @@ page {
 }
 
 .button-list {
-  margin-top: 120rpx;
+  margin-top: 60rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 60rpx;
+  gap: 30rpx;
 }
 
 .button-item {

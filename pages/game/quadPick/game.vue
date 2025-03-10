@@ -12,16 +12,21 @@
 		</view>
 		<view class="game-content-box">
 			<view class="content-title">
-				<view v-if="gameStatus == 1">請盡快選定您中意的數盤</view>
-				<view v-if="gameStatus == 2">敬请等待选择结果......</view>
-				<view v-if="gameStatus == 3">結果已經產生</view>
+				<view v-if="gameStatus == 1 ">請盡快選定您中意的數盤</view>
+				<view v-if="gameStatus == 2&&isPlayEndAnim">敬請等待選擇結果......</view>
+				<view v-if="gameStatus == 2&&!isPlayEndAnim">結果已經產生</view>
+				<view v-if="gameStatus == 3">請等待新一場遊戲的開始</view>
 			</view>
 
 			<view class="clock-box">
 				<image class="clock-image" src="@/static/image/game/quad-pick/clock.png" mode="aspectFit"></image>
-				<view class="clock-time-box" v-if="!isShowText">
-					00:{{countdownTime < 10 ? "0" + countdownTime : countdownTime}}</view>
 				<view class="clock-time-box select-text" v-if="isShowText">{{contentText}}</view>
+				<view class="clock-time-box" v-if="!isShowText">
+					<view v-if="countdownTime<=0">00:00</view>
+					<view v-else>
+						00:{{countdownTime < 10 ? "0" + countdownTime : countdownTime}}</view>
+				</view>
+
 			</view>
 			<view class="game-number-box">
 				<view class="game-number-item number-1" :class="{ active: numberActive === 1,bobm:bombCurIndex ===1}"
@@ -53,7 +58,8 @@
 		</view>
 
 		<view class="game-popup-box">
-			<image class="game-popup-image" @click="onSowPeopleNumber" src="@/static/image/shoppingMall/dtzy.png" mode="aspectFit"></image>
+			<image class="game-popup-image" @click="onSowPeopleNumber" src="@/static/image/shoppingMall/dtzy.png"
+				mode="aspectFit"></image>
 			<image class="game-popup-image" src="@/static/image/shoppingMall/lsck.png" mode="aspectFit"></image>
 		</view>
 
@@ -74,7 +80,8 @@
 			</view>
 		</mg-popup> -->
 
-		<mg-popup ref="gameResultPopup" width="700rpx" height="530rpx">
+		<mg-popup ref="gameResultPopup" width="700rpx" :height="resultInfo.nextReady?'530rpx':'600rpx'"
+			@close="nextPageGame">
 			<view class="game-result-popup-box">
 				<view class="game-result-popup-text-list">
 					<view class="game-result-popup-text-item">{{ resultInfo.gameWon?'恭喜您！ 贏得了剛才的比賽！':'很遺憾，您這一次沒有選中'}}
@@ -102,12 +109,12 @@
 							再來一次，勝利必將屬於您！
 						</view>
 					</view>
-					<view class="retult-fail-box" v-if="!resultInfo.gameWon">
+					<view class="retult-fail-box" v-if="!resultInfo.nextReady">
 						<view class="retult-fail-text">
-							溫馨提示：<text class="retult-win-text-bold">您的紅寶石數量已經不够，</text>
+							溫馨提示：<text class="retult-win-text-bold">您的紅寶石數量已經不夠，</text>
 						</view>
 						<view class="retult-fail-text">
-							无法进行下一场竞技。
+							無法進行下一場競技。
 						</view>
 					</view>
 				</view>
@@ -147,8 +154,10 @@
 
 <script>
 	import {
-		mapState
-	} from "vuex"; //引入mapState
+		mapState,
+		mapActions,
+		mapMutations
+	} from "vuex";
 	import {
 		betNumber,
 		exitRoom,
@@ -164,25 +173,29 @@
 				gameId: 0,
 				roomInfo: {},
 				numberActive: 0,
-				interval: null,
 				curIndexNumber: 0,
 				selectNumber: 0,
 				isCanAvailable: false,
 				countdownTime: 60,
-				countdownInterval: null,
 				isShowPeople: false,
-				breatheInterval: null,
-				initDataInterval: null,
 				isShowText: false,
+				isPlayEndAnim: false,
 				bombCurIndex: 0,
 				contentText: "游戏未开始",
 				resultInfo: {},
 				gameStatus: 1,
+				isCountdownEnded: false,
+				systemChoice: 0,
+				endDownData: {
+					index: 0,
+					defaultIndex: 8
+				}
 			};
 		},
 		computed: {
 			...mapState({
 				language: (state) => state.language,
+				countdownInterval: (state) => state.countdownInterval,
 			}),
 		},
 		onLoad(e) {
@@ -195,7 +208,7 @@
 					icon: "none"
 				})
 			}
-			this.onStartBreathe()
+			this.onStartDownTimeInterval()
 		},
 		onShow() {},
 		onUnload() {
@@ -203,24 +216,12 @@
 			if (this.countdownInterval) {
 				clearInterval(this.countdownInterval);
 			}
-			if (this.interval) {
-				clearInterval(this.interval)
-			}
-			if (this.breatheInterval) {
-				clearInterval(this.breatheInterval)
-			}
-			if (this.initDataInterval) {
-				clearInterval(this.initDataInterval)
-			}
 			exitRoom().then(res => {
 				console.log(res)
 			})
 		},
-		onHide() {
-			console.log("onHide")
-			console.log(this.countdownInterval)
-		},
 		methods: {
+			...mapMutations(["setCountdownInterval"]),
 			onRestartGame() {
 				this.roomInfo = {}
 				this.numberActive = 0
@@ -229,41 +230,39 @@
 				this.isShowText = false
 				this.bombCurIndex = 0
 				this.contentText = '世界樹選擇數字'
-				this.resultInfo = {}
 				this.isShowPeople = false
 				this.gameStatus = 1
+				this.systemChoice = 0
 				this.onInitData();
 			},
-			onStartBreathe() {
-				if (this.breatheInterval) {
-					clearInterval(this.breatheInterval);
-					this.breatheInterval = null
-				}
-				if (this.initDataInterval) {
-					clearInterval(this.initDataInterval);
-					this.initDataInterval = null
-				}
-				this.initDataInterval = setInterval(() => {
-					this.onInitData()
-				}, 30 * 1000)
-
-				this.breatheInterval = setInterval(() => {
-					breathe().then(res => {})
-				}, 90 * 1000)
-			},
-			onInitData() {
+			onInitData(cb) {
 				roomInfo({
 					id: this.roomId
 				}).then(res => {
+					//设置房间信息
 					this.roomInfo = res.data
 					this.gameId = res.data.gameId
-					this.gameStatus = res.data.status
-					if (res.data.acceptsBet) {
-						this.selectNumber = res.data.memberChoice
+					if (this.gameStatus == 2 && res.data.status == 2) {
+						res.data.status = 3
 					}
 					this.isCanAvailable = res.data.betAvailable
+					if (res.data.acceptsBet) {
+						this.selectNumber = res.data.memberChoice
+					} else {
+						this.selectNumber = 0
+					}
+					this.systemChoice = res.data.systemChoice
 					let downTime = Math.floor(this.roomInfo.cooldown / 1000) + 1
-					this.startCountdown(downTime);
+					if (res.data.cooldown == 0) {
+						downTime = 16
+						this.contentText = "等待下局开始"
+						this.isShowText = true;
+					} else {
+						this.isShowText = false;
+					}
+					this.gameStatus = res.data.status
+					this.countdownTime = downTime;
+					cb && cb(res.data)
 				}).catch(err => {
 					this.contentText = err.data.msg
 					this.isShowText = true;
@@ -273,37 +272,49 @@
 					})
 				})
 			},
-			openNumberAnim() {
-				if (this.interval != null) {
-					clearInterval(this.interval);
-					this.interval = null;
-				}
-				this.numberActive = 1;
-				let index = 0;
-				this.interval = setInterval(() => {
+			endDownTimeCail(downTime) {
+				let maxIndex = this.endDownData.defaultIndex + this.systemChoice + 1
+				setTimeout(() => {
+					downTime = downTime - 50
 					this.numberActive++;
+					this.endDownData.index++;
 					if (this.numberActive == 5) {
 						this.numberActive = 0;
 					}
-					if (index > 12) {
-						this.gameStatus = 3;
-						clearInterval(this.interval);
-						this.interval = null
+					if (this.endDownData.index >= maxIndex) {
+						this.isPlayEndAnim = false;
 						this.onGameResult()
+					} else {
+						this.endDownTimeCail(downTime)
 					}
-					index++;
-				}, 1000);
+				}, downTime);
+			},
+
+			openNumberAnim(data) {
+				this.endDownData = {
+					index: 0,
+					defaultIndex: 8
+				}
+				this.numberActive = 1;
+				let downTime = 1000
+				this.endDownTimeCail(downTime)
+			},
+			isNotEmptyObject(obj) {
+				return Object.keys(obj).length != 0;
 			},
 			onGameResult() {
+				let closePopup = this.isNotEmptyObject(this.resultInfo)
+				this.bombCurIndex = this.systemChoice
+				this.numberActive = 0;
 				gameResult({
 					gameId: this.gameId
 				}).then(res => {
 					let data = res.data
 					// 参与下注
+					this.resultInfo = data;
 					if (data.betting) {
-						this.resultInfo = data;
+						this.onShowBobmAnim(data,closePopup)
 					}
-					this.onShowBobmAnim(data)
 					console.log(res)
 				}).catch(err => {
 					console.error(err)
@@ -318,14 +329,18 @@
 						break;
 				}
 			},
-			onShowBobmAnim(data) {
-				this.bombCurIndex = data.systemChoice
+			onShowBobmAnim(data,closePopup) {
+				if(closePopup){
+					this.closePopup("gameResultPopup")
+				}
 				setTimeout(() => {
-					this.openPopup("gameResultPopup")
-				}, 1500)
+					if (data.betting) {
+						this.openPopup("gameResultPopup")
+					}
+				}, 2500)
 			},
 			openSelectPopup(index) {
-				if (this.isShowText) {
+				if (!this.isCanAvailable) {
 					return
 				}
 				if (this.selectNumber == 0) {
@@ -351,20 +366,11 @@
 					this.$refs[name].close();
 				}
 			},
-			onClickItem(item) {
-				if (item >= 8) {
-					this.openPopup("gameNotEnoughPopup");
-					return;
-				}
-				if (item >= 6) {
-					this.openPopup("gameNoOpenPopup");
-				}
-			},
 			showNoOpenPopup() {
 				this.$refs.noOpenPopup.open();
 			},
 			toMyPage() {
-				uni.redirectTo({
+				uni.reLaunch({
 					url: "/pages/myPage/index"
 				})
 			},
@@ -377,7 +383,8 @@
 					roomId: this.roomId,
 					betNumber: this.curIndexNumber
 				}).then(res => {
-					this.selectNumber = this.curIndexNumber;
+					this.isCanAvailable = false
+					this.onInitData()
 				}).catch(err => {
 					uni.showToast({
 						title: err.data.msg,
@@ -387,27 +394,41 @@
 					this.closePopup("gameSelectPopup");
 				})
 			},
-			startCountdown(downTime) {
-				this.isShowText = false;
-				this.countdownTime = downTime;
+			onStartDownTimeInterval() {
 				if (this.countdownInterval) {
 					clearInterval(this.countdownInterval);
-					this.countdownInterval = null
 				}
-				this.countdownInterval = setInterval(() => {
-					if (this.countdownTime > 0) {
-						this.countdownTime--;
-					} else {
-						clearInterval(this.countdownInterval);
-						this.isShowText = true;
-						this.contentText = '世界樹選擇數字'
-						this.gameStatus = 2;
-						this.openNumberAnim();
+				let countdownInterval = setInterval(() => {
+					if (this.countdownTime == 0) {
+						console.log("结束倒计时！！！！")
+						this.isCountdownEnded = true;
+						this.endCountdownCail()
 					}
+					this.countdownTime--;
 				}, 1000);
+				this.setCountdownInterval(countdownInterval)
+			},
+			endCountdownCail() {
+				this.onInitData((data) => {
+					switch (data.status) { //遊戲狀態 1->下注中;2->已結算;3->待下局開始
+						case 1:
+							break;
+						case 2:
+							this.contentText = '世界樹選擇數字'
+							this.isPlayEndAnim = true;
+							this.isShowText = true;
+							this.openNumberAnim(data.cooldown);
+							break;
+						case 3:
+							this.onRestartGame()
+							break;
+						default:
+							break;
+					}
+				})
 			},
 			toBack() {
-				uni.redirectTo({
+				uni.reLaunch({
 					url: "/pages/game/quadPick/index"
 				})
 			},
@@ -534,7 +555,7 @@
 		position: absolute;
 		bottom: -50rpx;
 		left: 50rpx;
-		transition: all 500ms; 
+		/* transition: all 200ms; */
 	}
 
 	.game-bobm-image {

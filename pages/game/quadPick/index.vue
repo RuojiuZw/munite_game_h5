@@ -9,14 +9,14 @@
 				</image>
 			</view>
 			<view class="game-top-box-number-people-box">
-				<view class="text">当前</view>
+				<view class="text">當前</view>
 				<view class="number">{{homePageData.quadPickCount}}</view>
 				<view class="text">人</view>
 			</view>
 			<view class="game-top-box-game-rule" @click="openPopup('gameRulePopup')">
 				<image class="game-top-box-game-rule-image" src="/static/image/game/quad-pick/book.png"
 					mode="aspectFit"></image>
-				<view class="game-top-box-game-rule-text">游戏规则</view>
+				<view class="game-top-box-game-rule-text">遊戲規則</view>
 			</view>
 		</view>
 		<view class="game-content-box">
@@ -32,14 +32,14 @@
 				<image class="game-rule-popup-image" src="/static/image/game/quad-pick/game-icon.png" mode="aspectFit">
 				</image>
 				<view class="game-rule-popup-text-list">
-					<view class="game-rule-popup-text-item">休闲四选一是一款</view>
-					<view class="game-rule-popup-text-item">三赢一输（胜率75%）的竞猜小游戏</view>
-					<view class="game-rule-popup-text-item margin-top">会员进入一个自己喜欢的红宝石场次，</view>
-					<view class="game-rule-popup-text-item">然后在自己喜欢的数字（1~4）上</view>
-					<view class="game-rule-popup-text-item">质押红宝石（根据场级别决定），</view>
-					<view class="game-rule-popup-text-item">当游戏开出结果，</view>
-					<view class="game-rule-popup-text-item">选择了没有中雷的数字的会员，</view>
-					<view class="game-rule-popup-text-item">赢得比赛。</view>
+					<view class="game-rule-popup-text-item">休閒四選一是一款</view>
+					<view class="game-rule-popup-text-item">三贏一輸（勝率75%）的競猜小遊戲</view>
+					<view class="game-rule-popup-text-item margin-top">會員進入一個自己喜歡的紅寶石場次，</view>
+					<view class="game-rule-popup-text-item">然後在自己喜歡的數字（1~4）上</view>
+					<view class="game-rule-popup-text-item">質押紅寶石（根據場級別決定），</view>
+					<view class="game-rule-popup-text-item">當遊戲開出結果，</view>
+					<view class="game-rule-popup-text-item">選擇了沒有中雷的數字的會員，</view>
+					<view class="game-rule-popup-text-item">贏得比賽。</view>
 				</view>
 			</view>
 		</mg-popup>
@@ -47,14 +47,14 @@
 		<mg-popup ref="gameNotEnoughPopup" width="700rpx" height="600rpx">
 			<view class="game-rule-popup-box">
 				<view class="game-rule-popup-text-list">
-					<view class="game-rule-popup-text-item">很抱歉，您的背包里没有足够的红宝石</view>
-					<view class="game-rule-popup-text-item">来支撑这一次精彩游戏。</view>
-					<view class="game-rule-popup-text-item margin-top">红宝石获得方式：</view>
-					<view class="game-rule-popup-text-item">1、在商城里用MGT兑换；</view>
-					<view class="game-rule-popup-text-item">2、世界树里图腾产生；</view>
-					<view class="game-rule-popup-text-item">3、网游戏赢得竞技比赛；</view>
-					<view class="game-rule-popup-text-item">4、发展会员获得；</view>
-					<view class="game-rule-popup-text-item">5、世界树领取空投；</view>
+					<view class="game-rule-popup-text-item">很抱歉，您的背包裡沒有足夠的紅寶石</view>
+					<view class="game-rule-popup-text-item">來支撐這一次精彩遊戲。</view>
+					<view class="game-rule-popup-text-item margin-top">紅寶石獲得方式：</view>
+					<view class="game-rule-popup-text-item">1、在商城裡用MGT兌換；</view>
+					<view class="game-rule-popup-text-item">2、世界樹裡圖騰產生；</view>
+					<view class="game-rule-popup-text-item">3、網遊戲贏得競技比賽；</view>
+					<view class="game-rule-popup-text-item">4、發展會員獲得；</view>
+					<view class="game-rule-popup-text-item">5、世界樹領取空投；</view>
 				</view>
 			</view>
 		</mg-popup>
@@ -64,11 +64,11 @@
 				<image class="game-rule-popup-image" src="/static/image/game/quad-pick/game-icon.png" mode="aspectFit">
 				</image>
 				<view class="game-rule-popup-text-list">
-					<view class="game-rule-popup-text-item">很抱歉，您所选择的场次</view>
-					<view class="game-rule-popup-text-item">暂时还未对外开放，</view>
-					<view class="game-rule-popup-text-item">你可以去选择其他场次进行游戏。</view>
+					<view class="game-rule-popup-text-item">很抱歉，您所選擇的場次</view>
+					<view class="game-rule-popup-text-item">暫時還未對外開放，</view>
+					<view class="game-rule-popup-text-item">你可以去選擇其他場次進行遊戲。</view>
 					<view class="game-rule-popup-text-item margin-top">MG友情提示：</view>
-					<view class="game-rule-popup-text-item">小小博弈怡情，切勿上头哦。</view>
+					<view class="game-rule-popup-text-item">小小博弈怡情，切勿上頭哦。</view>
 				</view>
 			</view>
 		</mg-popup>
@@ -109,7 +109,7 @@
 					this.roomList = res.data.roomList
 				}).catch(err => {
 					uni.showToast({
-						title: "获取首页数据失败!",
+						title: "獲取首頁數據失敗!",
 						icon: "none"
 					})
 				})
@@ -150,17 +150,17 @@
 					id: item.id
 				}).then(res => {
 					console.log(res)
-					uni.navigateTo({
-						url: "/pages/game/quadPick/game?id="+item.id
+					uni.reLaunch({
+						url: "/pages/game/quadPick/game?id=" + item.id
 					})
 				}).catch(err => {
 					if (err.data.code == 2001000004) {
 						this.openPopup("gameNotEnoughPopup")
-						return 
+						return
 					}
 					uni.showToast({
-						title:err.data.msg,
-						icon:"none"
+						title: err.data.msg,
+						icon: "none"
 					})
 				})
 			},

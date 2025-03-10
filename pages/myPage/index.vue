@@ -23,11 +23,11 @@
 		</view>
 		<view class="my-backpack" v-if="curIndex == 0">
 			<view class="backpack-list-box">
-				<view class="backpack-item">
+				<!-- 			<view class="backpack-item">
 					<image class="backpack-add-icon" src="@/static/image/myPage/add-icon.png"></image>
 					<view class="backpack-text"></view>
-				</view>
-				<view class="backpack-item" v-for="(item, index) in bagList" :key="index" @click="onBagItem(item)">
+				</view> -->
+				<view class="backpack-item" v-for="(item, index) in bagList" :key="index+item.name" @click="onBagItem(item)">
 					<image class="backpack-add-icon" mode="aspectFit" :src="item.displayUrl"></image>
 					<view class="backpack-text">{{item.stackCount}}</view>
 				</view>
@@ -171,7 +171,7 @@
 						<image class="bag-totem-top-image" mode="aspectFit" :src="openItem.displayUrl"></image>
 						<view class="bag-totem-top-text-list">
 							<view class="bag-totem-top-text-item big">利古里古</view>
-							<view class="bag-totem-top-text-item">每日生產：{{0}}</view>
+							<view class="bag-totem-top-text-item">每日生產：{{openItem.dailyAmount}}</view>
 							<view class="bag-totem-top-text-item">生產週期：{{openItem.maxUsageCount}}天</view>
 							<view class="bag-totem-top-text-item">總生產量：{{openItem.maxRubyReserve}}</view>
 							<view class="bag-totem-top-text-item">已用天數：{{openItem.usedCount}}天</view>
@@ -221,7 +221,7 @@
 				curIndex: 0,
 				bagData: {},
 				bagList: [],
-				nullBoxNum: 3,
+				nullBoxNum: 4,
 				openItem: {},
 				teamInfo: {
 					directlyMemberList: [],
@@ -279,6 +279,7 @@
 						icon: "none"
 					})
 					this.closePopup("bagTotemPopup")
+					this.onInitData()
 				}).catch(err => {
 					if (err.data.code == 2001001001) {
 						this.openPopup("bagTotemErrorPopup", "bagTotemPopup")
@@ -311,8 +312,7 @@
 					if (res.data) {
 						this.bagData = res.data;
 						this.bagList = res.data.itemList;
-						let len = this.bagList.length
-						this.nullBoxNum = parseInt(this.bagData.maxSlotCount - len)
+						this.nullBoxNum = parseInt(res.data.maxSlotCount - res.data.usedSlotCount)
 					}
 				});
 			},
@@ -528,7 +528,8 @@
 		height: 80rpx;
 		gap: 30rpx;
 	}
-	.no-data-text{
+
+	.no-data-text {
 		text-align: center;
 		justify-content: center;
 	}

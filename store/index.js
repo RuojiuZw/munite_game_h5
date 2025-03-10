@@ -19,6 +19,7 @@ const store = new Vuex.Store({
 					userInfo: {},
 					userId: uni.getStorageSync("userId"),
 					token: uni.getStorageSync("token"),
+					countdownInterval: null,
 				},
 				mutations: {
 					setUserInfo(state, userInfo) {
@@ -35,9 +36,12 @@ const store = new Vuex.Store({
 					setEnv(state, env) {
 						state.env = env
 					},
-					setLanguage(state, language){
+					setLanguage(state, language) {
 						state.language = language
 						uni.setLocale(language)
+					},
+					setCountdownInterval(state,countdownInterval){
+						state.countdownInterval = countdownInterval
 					},
 					refreshUser(state) {
 						console.log("刷新账号", state)

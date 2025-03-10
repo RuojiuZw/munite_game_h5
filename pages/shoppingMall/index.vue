@@ -53,7 +53,7 @@
 				<view class="jjdj-image-list-box">
 					<image class="jjdj-icon dtzy" src="@/static/image/shoppingMall/dtzy.png"></image>
 					<image class="jjdj-icon lsck" src="@/static/image/shoppingMall/lsck.png"></image>
-					<image class="jjdj-icon jcxd" src="@/static/image/shoppingMall/jcxd.png"></image>
+					<!-- <image class="jjdj-icon jcxd" src="@/static/image/shoppingMall/jcxd.png"></image> -->
 				</view>
 				<view class="jjdj-popup-text-box">
 					<view class="jjdj-popup-text">

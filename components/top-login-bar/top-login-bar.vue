@@ -47,7 +47,7 @@
 				this.refreshUserInfo()
 			},
 			toMyUserInfo() {
-				uni.navigateTo({
+				uni.reLaunch({
 					url: "/pages/myPage/index",
 				});
 			},
